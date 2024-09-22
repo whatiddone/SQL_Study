@@ -57,4 +57,21 @@ OLAP: Online Analytical Processing
 ![image](https://github.com/user-attachments/assets/d84a4010-6726-4e0e-af32-507c062952bf)
 --
 ![image](https://github.com/user-attachments/assets/bd0c0feb-05b8-4851-9f61-19cbeab8de5d)
+Battle 테이블에는 파티션이 있기 때문에 모양이 다르다!
 
+
+> # 2-1. 데이터 활용 Overview
+---
+### 데이터를 활용하는 과정
+![image](https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa)
+--*주황색 박스 안 부분이 SQL로 처리할 수 있는 부분!--
+
+원하는 데이터를 탐색할 때, 단일 자료와 다량의 자료를 연결해서 조건(필터링), 추출, 변환, 요약 과정을 거쳐야한다.
+
+SQL을 통해 데이터 탐색&데이터 결과 검증을 진행한다.
+
+- 문제 정의 시.
+MECE: 중복이 없고, 상호 배제적이다.
+
+- 지표 정의 시
+Metric: 지표 또는 성과를 나타내는 값, 	데이터를 측정하거나 분석하기 위해 정의된 계산이나 집계
