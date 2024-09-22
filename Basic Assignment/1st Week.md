@@ -10,7 +10,7 @@
 
 > # 1-1. BigQuery 기초 지식
 ---
->> ### 1-1-1 데이터 저장 형태
+### 데이터 저장 형태
 - Database: 데이터의 저장소
 - Table: 데이터가 저장된 공간
 - Database>Table>Row(행,가로)&Column(열,세로)
@@ -43,3 +43,18 @@ OLAP: Online Analytical Processing
 데이터 웨어하우스
 - 데이터를 한곳에 모아서 저정
 - 여러 곳에 저장된 데이터 예시: Database, 웹(크롤링), 파일, API의 결과 등
+
+
+> # 1-2. BigQuery 환경 설정
+---
+### BigQuery의 환경 구성 요소
+1) 프로젝트: 하나의 프로젝트에 여러 데이터셋이 존재
+2) 데이터셋: 하나의 데이터셋에 다양한 테이블이 존재
+3) 테이블: 행과 열로 이루어진 데이터가 저장
+*프로젝트>데이터셋>테이블
+
+### BigQuery 실행 결과
+![image](https://github.com/user-attachments/assets/d84a4010-6726-4e0e-af32-507c062952bf)
+--
+![image](https://github.com/user-attachments/assets/bd0c0feb-05b8-4851-9f61-19cbeab8de5d)
+
