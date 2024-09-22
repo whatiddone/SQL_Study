@@ -19,3 +19,16 @@
 - DBMS(Database Management System)에 저장 (MySQL, Oracle, PostgreSQL 등)
 - MySQL, Oracle, PostgreSQL과 같은 데이터베이스의 특징: OLTP
   - OLTP(Online Transaction Processing)란?
+      - 거래를 하기 위해 사용되는 데이터베이스
+      - 데이터가 무결하다: 보류, 중간 상태가 없다.
+      - 데이터의 추가(INSERT), 데이터의 변경(UPDATE)이 많이 발생.
+
+### SQL(Structurer Query Language)
+- SQL: 데이터베이스에서 ***데이터를 가지고 올 때 사용**하는 언어
+
+### 데이블에 저장된 데이터의 형태
+| 구조 | 모양 | 의미 |
+|---|:---:|---:|
+| 행(Row) | 가로 | 하나의 Row가 하나의 고유한 데이터 |
+| 열(Column) | 세로 | 각 데이터의 특정 속성 값 |
+*위 표에서 '열'은 '구조, 모양.의미', '행'은 '행.열'
