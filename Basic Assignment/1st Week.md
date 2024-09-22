@@ -36,8 +36,10 @@
 
 ### OLAP와 데이터 웨어하우스(DW)의 등장
 OLTP의 한계: 속도, 기능부족
+
 OLAP: Online Analytical Processing
 - 분석을 위한 기능 제공
+
 데이터 웨어하우스
 - 데이터를 한곳에 모아서 저정
 - 여러 곳에 저장된 데이터 예시: Database, 웹(크롤링), 파일, API의 결과 등
