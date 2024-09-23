@@ -103,6 +103,4 @@ Metric: 지표 또는 성과를 나타내는 값, 데이터를 측정하거나 �
 - 상품, 유저, 주문, 장바구니에 담은 물건, 웹페이지 접근 수
 
 ### ERD 예시
-![ERD][def]
-
-[def]: ../SQL_STUDY/Basic Assignment/image/image.png)
+![image](https://github.com/user-attachments/assets/283819a0-ad5a-4153-86e5-5628c99fe51b)
