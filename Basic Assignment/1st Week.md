@@ -64,6 +64,8 @@ Battle 테이블에는 파티션이 있기 때문에 모양이 다르다!
 ---
 ### 데이터를 활용하는 과정
 ![image](https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa)
+<img src="https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa" width="50" height="50"/>
+출처: https://developnote.tistory.com/75 [범범범즈의 개발 노트:티스토리]
 __*주황색 박스 안 부분이 SQL로 처리할 수 있는 부분!__
 
 원하는 데이터를 탐색할 때, 단일 자료와 다량의 자료를 연결해서 조건(필터링), 추출, 변환, 요약 과정을 거쳐야한다.
