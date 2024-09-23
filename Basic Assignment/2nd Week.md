@@ -18,13 +18,23 @@ WHERE
 * SELECT에서 As 를 사용하면 컬럼 이름을 변경할 수 있다.
 * WHERE 뒤에는 조건문이 오는 느낌이다. (예: Name="꼬부기")
 
- - ex) 포켓몬 타입이 붙은 포켓몬을 찾는 SQL 쿼리
- SELECT
-  * 
- FROM basic.pokemon
- WHERE
-  type1="Fire"
-    - *: 모든 컬럼을 출력하겠다.(데이터 확인용으로 쓰는데, 미리보기로 대체 가능)
-    - SELECT
-       *EXCEPT(제외할 컬럼)
-       이런 형태도 가능
+ex) 포켓몬 타입이 붙은 포켓몬을 찾는 SQL 쿼리
+```
+SELECT
+ * 
+FROM basic.pokemon
+WHERE
+ type1="Fire"
+```
+- *: 모든 컬럼을 출력하겠다.(데이터 확인용으로 쓰는데, 미리보기로 대체 가능)
+```   
+- SELECT
+ *EXCEPT(제외할 컬럼)
+```
+이런 형태도 가능
+
+### 데이터가 여러 장소에 저장되어 있는 경우
+- 특정 Tabled에 있는 데이터를 각각 추출 후, 연결하기(Join)
+
+### BigQuery에서 쿼리 실행하기
+![image](https://github.com/user-attachments/assets/eda64c8d-a4ab-43da-b6e3-7c756b059b1d)
