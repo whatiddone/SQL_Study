@@ -63,8 +63,7 @@ Battle 테이블에는 파티션이 있기 때문에 모양이 다르다!
 > # 2-1. 데이터 활용 Overview
 ---
 ### 데이터를 활용하는 과정
-![image](https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa)
-<img src="https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa" width="50" height="50"/>
+<img src="https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa" width="500" height="500"/>
 출처: https://developnote.tistory.com/75 [범범범즈의 개발 노트:티스토리]
 __*주황색 박스 안 부분이 SQL로 처리할 수 있는 부분!__
 
@@ -82,3 +81,4 @@ Metric: 지표 또는 성과를 나타내는 값, 데이터를 측정하거나 �
 
 
 > # 2-2. 저장된 데이터 확인하기 (데이터베이스, 데이터 웨어하우스, ERD)
+---
