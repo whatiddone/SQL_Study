@@ -79,4 +79,4 @@ FROM basic.pokemon;
 | SELECT | Table에 저자되어 있는 컬럼 선택 <br> 여러 컬럼 명시 가능 <br> col1 AS "별칭"으로 컬럼의 이름도 별칭 지정 가능 |
 
 - 쿼리 엔진의 실행 순서: FROM->WHERE->SELECT: 이 순서대로 데이터 구조를 생각하기
-- 쿼리문 실행할 때는 반대 순서!
+- **쿼리문 실행할 때는 반대 순서! (SELECT-FROM-WHERE)**
