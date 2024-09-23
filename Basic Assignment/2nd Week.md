@@ -86,9 +86,13 @@ FROM basic.pokemon;
 
 
 
-> # 2-3. SELECT 연습 문제
+> # 2-4. SELECT 연습 문제
 ---
 ### 연습문제 1: Trainer 테이블에 있는 모든 데이터를 보여주는 SQL 쿼리를 작성해주세요.
+1) Trainer 테이블에 어떤 데이터가 있는지 확인해보자
+2) Trainer 테이블을 어디에 명시해야 할까? ==>FROM
+3) 필터링 조건이 있을까? ==> 모든 데이터 ==> 필터링을 할 필요가 없겠다.(WHERE X)
+4) 모든 데이터 ==> 모든 데이터 = 모든 컬럼일 수도 있겠다(추측) 쿼리 작성 => 애매하면 모든 데이터의 정의가 무엇인가?
 ```
 SELECT
  *
@@ -114,6 +118,7 @@ FROM basic.trainer;
 ![image](https://github.com/user-attachments/assets/aeeb1355-59d1-48b8-a5f6-e604a03b169b)
 
 ### 연습문제 4: Trainer의 테이블에서 id가 3인 트레이너의 name, age, hometown을 출력하는 쿼리를 작성해주세요.
+*조건 등장: id=3
 ```
 SELECT
  name,
@@ -126,6 +131,7 @@ WHERE id=3;
 
 
 ### 연습문제 5: Pokemon 테이블에서 "피카츄"의 공격력과 체력을 확인할 수 있는 쿼리를 작성해주세요.
+*조건 등장: "피카"
 ```
 SELECT
  hp,
@@ -136,3 +142,9 @@ SELECT
 ```
  ![image](https://github.com/user-attachments/assets/5367cafd-7a6a-4a5f-96f9-28d1aedeafe5)
 - Select에서 'kor_name'이 빠지면 쿼리 결과만으로는 피카츄의 공격력과 체력인지 아닌지 보기 어려워서 Select에 피카츄 추가
+
+> # 2-5. 집계(GROUP BY+HAVING+SUM/COUNT)
+### 집계와 그룹화
+- 집계하다 = 모아서 계산하다 = 그룹화해서 계산하다.
+- 계산
+  -더하기, 빼
