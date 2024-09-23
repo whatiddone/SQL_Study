@@ -88,4 +88,51 @@ FROM basic.pokemon;
 
 > # 2-3. SELECT 연습 문제
 ---
-### 연습문제 1
+### 연습문제 1: Trainer 테이블에 있는 모든 데이터를 보여주는 SQL 쿼리를 작성해주세요.
+```
+SELECT
+ *
+FROM basic.trainer;
+```
+![image](https://github.com/user-attachments/assets/bbd52f47-5ef3-4765-9d26-24dc112495fc)
+
+### 연습문제 2: Trainer 테이블에 있는 트레이너의 name을 출력하는 쿼리를 작성해주세요
+```
+SELECT
+ name
+FROM basic.trainer;
+```
+![image](https://github.com/user-attachments/assets/9ea815cd-c272-4b2f-a35d-0f86eba36166)
+
+### 연습문제 3: Trainer 테이블에 있는 name, age를 출력하는 쿼리를 작성해주세요.
+```
+SELECT
+ name,
+ age
+FROM basic.trainer;
+```
+![image](https://github.com/user-attachments/assets/aeeb1355-59d1-48b8-a5f6-e604a03b169b)
+
+### 연습문제 4: Trainer의 테이블에서 id가 3인 트레이너의 name, age, hometown을 출력하는 쿼리를 작성해주세요.
+```
+SELECT
+ name,
+ age,
+ hometown
+FROM basic.trainer
+WHERE id=3;
+```
+![image](https://github.com/user-attachments/assets/3c05e805-9e3c-474a-bd6f-573001331575)
+
+
+### 연습문제 5: Pokemon 테이블에서 "피카츄"의 공격력과 체력을 확인할 수 있는 쿼리를 작성해주세요.
+```
+SELECT
+ hp,
+ attack,
+ kor_name
+ FROM basic.pokemon
+ WHERE kor_name="피카츄";
+```
+ ![image](https://github.com/user-attachments/assets/5367cafd-7a6a-4a5f-96f9-28d1aedeafe5)
+- Select에서 'kor_name'이 빠지면 쿼리 결과만으로는 피카츄의 공격력과 체력인지 아닌지 보기 어려워서 Select에 피카츄 추가
