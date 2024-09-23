@@ -86,5 +86,6 @@ FROM basic.pokemon;
 
 
 
-> # 2-3. 데이터 탐색(SELECT, FROM, WHERE)
+> # 2-3. SELECT 연습 문제
 ---
+### 연습문제 1
