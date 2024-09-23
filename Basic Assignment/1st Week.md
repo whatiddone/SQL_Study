@@ -63,7 +63,7 @@ Battle 테이블에는 파티션이 있기 때문에 모양이 다르다!
 > # 2-1. 데이터 활용 Overview
 ---
 ### 데이터를 활용하는 과정
-<img src="https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa" width="500" height="500"/>
+<img src="https://github.com/user-attachments/assets/ff45ebf1-cb3c-45d0-8a8c-47aec906a4aa" width="640" height="480"/>
 출처: https://developnote.tistory.com/75 [범범범즈의 개발 노트:티스토리]
 __*주황색 박스 안 부분이 SQL로 처리할 수 있는 부분!__
 
