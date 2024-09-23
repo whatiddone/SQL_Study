@@ -3,8 +3,9 @@
 ### SQL 쿼리 구조
 SQL 쿼리문은 아래와 같은 문법으로 작성
 - 우선 SELECT, FROM, WHERE
-
+```
 SELECT: 테이블의 **어떤 컬럼**을 선택(출력)할 것인가?
+
  Col1, AS new_name (As 를 사용하면 컬럼 이름을 변경할 수 있다.)
  Col2,
  Col3
