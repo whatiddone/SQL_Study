@@ -158,3 +158,44 @@ SELECT
      - "타입"을 기준으로 그룹화해서 "평균 공격력" 집계하기
      - "타입"을 기준으로 그룹화해서 "타입 별 포켓몬 수" 집계하기
      - "평균 공격력"을 내림차순으로 정렬하면, "평균 공격력"이 제일 높은 타입을 알 수 있고 <br> "타입 별 포켓몬 수"가 가장 낮은 타입을 알고 싶으면, "타입 별 포켓몬 수"를 오름차순으로 정렬하면 된다.
+* 정렬: ORDER BY
+
+### 그룹화 한 값에 조건 설정하기
+- 타입 당 포켓몬 수가 10마리 이상인 데이터만 추출하고 싶은 경우: 집계를 한 이후이기 때문에 **HAVING** 사용
+
+### 함수를 사용하는 경우
+```
+SELECT
+ 집계할_컬럼1,
+ 집계 함수(COUNT,MAX,MIN 등)
+FROM Table
+GROUP BY
+ 집계할_컬럼1
+```
+ **집계할 컬럼을 SELECT에 명시하고 그 컬럼을 꼭 GROUP BY에 작성**
+
+ ### 집계 함수 종류
+| Name | Summary |
+|:---:|:---|
+| AVG | Gets the average of non-NULL values. |
+| COUNT | 	Gets the number of rows in the input, or the number of rows with an expression evaluated to any value other than NULL. |
+| COUNTIF | Gets the count of TRUE values for an expression. |
+| MAX | 	Gets the maximum non-NULL value. |
+| MIN | 	Gets the minimum non-NULL value. |
+| SUM | 	Gets the sum of non-NULL values. |
+
+-전체 리스트
+![image](https://github.com/user-attachments/assets/c2e26786-c4be-429d-8ea7-7545d9ec607d)
+
+### DISTINCT: 고유값을 알고 싶은 경우(중복을 제거하는 것)
+-1,2,3,3,4=>DISTINCT하면?=>1,2,3,4
+```
+SELECT
+ 집계할 컬럼,
+ COUNT(DISTINCT count할_컬럼)
+FROM table
+GROUP BY
+ 집계할 컬럼
+```
+
+### GROUP BY 연습문
