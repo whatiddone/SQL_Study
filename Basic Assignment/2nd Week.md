@@ -37,6 +37,6 @@ WHERE
 - 특정 Tabled에 있는 데이터를 각각 추출 후, 연결하기(Join)
 
 ### BigQuery에서 쿼리 실행하기
-![image](https://github.com/user-attachments/assets/eda64c8d-a4ab-43da-b6e3-7c756b059b1d)
+<img src="https://github.com/user-attachments/assets/eda64c8d-a4ab-43da-b6e3-7c756b059b1d" width="540" height="300"/>
 *Syntax error: SELECT list must not be empty at [3:1]: SELECT 단계에서 컬럼이 지정되지 않았을 때 오류
 
