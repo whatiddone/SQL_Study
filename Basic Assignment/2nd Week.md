@@ -37,7 +37,33 @@ WHERE
 - 특정 Tabled에 있는 데이터를 각각 추출 후, 연결하기(Join)
 
 ### BigQuery에서 쿼리 실행하기
-<img src="https://github.com/user-attachments/assets/eda64c8d-a4ab-43da-b6e3-7c756b059b1d" width="700" height="400"/>
+```
+SELECT
+ id as pokemon_id, # AS는 별칭을 지어줄 때 사용한다.
+ -- id as"pokemon_id" # 컬럼 이름에 따옴표는 넣어서 문자로 넣어주면 오류가 발생
+ -- id as pokemon_id # 컬럼 여러개 쓸 때는 ','로 구분해주기
+ kor_name, 
+ type1,
+ total
+FROM `my-sql-1st-week.basic.pokemon`
+WHERE
+ type1="Fire"; #;는 쿼리문이 하나 끝났다는 것을 알려준다.
 
+SELECT
+ id
+FROM basic.pokemon;
+# my-sql-1st-week: project id
+# basic: dataset
+# pokemon: table
+# <project id>,<dataset>,<table>
+# 단일 프로젝트라면 project id는 꼭 명시할 필요는 없다.
+# 프로젝트를 여러개 사용한다면 명시해야 한다. => 쿼리를 실행할 때 어떤 프로젝트인지 확인하는 과정이 존재
+# project id를 제외하고 사용해도 괜찮긴하다.
+# 데이터를 활용하고 싶은 목적이 있어야, 어떤 컬럼을 선택할지 알 수 있게 된다.
+
+# 가독성 있는 쿼리: 특히나 협업할 때 중요
+```
 *Syntax error: SELECT list must not be empty at [3:1]: SELECT 단계에서 컬럼이 지정되지 않았을 때 오류
 
+- 주석 여러개 다는 법: 드래그한 다음 "Ctrl+/"
+- 쿼리문 여러 개 있을 때 선택해서 실행하는 법: 드래그 한 다음에 "Ctrl+Enter"
