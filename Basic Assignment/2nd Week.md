@@ -81,6 +81,10 @@ FROM basic.pokemon;
 - 쿼리 엔진의 실행 순서: FROM->WHERE->SELECT: 이 순서대로 데이터 구조를 생각하기
 - **쿼리문 실행할 때는 반대 순서! (SELECT-FROM-WHERE)**
 
+### 수행 인증
+![image](https://github.com/user-attachments/assets/8adf09ee-39cd-4cdc-a18a-3c4af87f7cba)
+
+
 
 > # 2-3. 데이터 탐색(SELECT, FROM, WHERE)
 ---
