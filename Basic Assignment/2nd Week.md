@@ -88,7 +88,7 @@ FROM basic.pokemon;
 
 > # 2-4. SELECT 연습 문제
 ---
-### 연습문제 1: Trainer 테이블에 있는 모든 데이터를 보여주는 SQL 쿼리를 작성해주세요.
+### 연습문제 1. Trainer 테이블에 있는 모든 데이터를 보여주는 SQL 쿼리를 작성해주세요.
 1) Trainer 테이블에 어떤 데이터가 있는지 확인해보자
 2) Trainer 테이블을 어디에 명시해야 할까? ==>FROM
 3) 필터링 조건이 있을까? ==> 모든 데이터 ==> 필터링을 할 필요가 없겠다.(WHERE X)
@@ -100,7 +100,7 @@ FROM basic.trainer;
 ```
 ![image](https://github.com/user-attachments/assets/bbd52f47-5ef3-4765-9d26-24dc112495fc)
 
-### 연습문제 2: Trainer 테이블에 있는 트레이너의 name을 출력하는 쿼리를 작성해주세요
+### 연습문제 2. Trainer 테이블에 있는 트레이너의 name을 출력하는 쿼리를 작성해주세요
 ```
 SELECT
  name
@@ -108,7 +108,7 @@ FROM basic.trainer;
 ```
 ![image](https://github.com/user-attachments/assets/9ea815cd-c272-4b2f-a35d-0f86eba36166)
 
-### 연습문제 3: Trainer 테이블에 있는 name, age를 출력하는 쿼리를 작성해주세요.
+### 연습문제 3. Trainer 테이블에 있는 name, age를 출력하는 쿼리를 작성해주세요.
 ```
 SELECT
  name,
@@ -117,7 +117,7 @@ FROM basic.trainer;
 ```
 ![image](https://github.com/user-attachments/assets/aeeb1355-59d1-48b8-a5f6-e604a03b169b)
 
-### 연습문제 4: Trainer의 테이블에서 id가 3인 트레이너의 name, age, hometown을 출력하는 쿼리를 작성해주세요.
+### 연습문제 4. Trainer의 테이블에서 id가 3인 트레이너의 name, age, hometown을 출력하는 쿼리를 작성해주세요.
 *조건 등장: id=3
 ```
 SELECT
@@ -129,9 +129,8 @@ WHERE id=3;
 ```
 ![image](https://github.com/user-attachments/assets/3c05e805-9e3c-474a-bd6f-573001331575)
 
-
-### 연습문제 5: Pokemon 테이블에서 "피카츄"의 공격력과 체력을 확인할 수 있는 쿼리를 작성해주세요.
-*조건 등장: "피카"
+### 연습문제 5. Pokemon 테이블에서 "피카츄"의 공격력과 체력을 확인할 수 있는 쿼리를 작성해주세요.
+*조건 등장: "피카츄"
 ```
 SELECT
  hp,
@@ -185,8 +184,42 @@ GROUP BY
 | SUM | 	Gets the sum of non-NULL values. |
 
 -전체 리스트
-![image](https://github.com/user-attachments/assets/c2e26786-c4be-429d-8ea7-75ㅇ
+![image](https://github.com/user-attachments/assets/c2e26786-c4be-429d-8ea7-75
 
+
+### DISTINCT: 고유값을 알고 싶은 경우(중복을 제거)
+- 예) 1,2,3,3,4 => DISTINCT하면 => 1,2,3,4
+```
+SELECT
+ 집계할 컬럼,
+ COUNT(DISTINCT count할 컬럼)
+FROM table
+GROUP BY
+    집계할 컬럼
+```
+
+### GROUP BY 연습 문제 1. pokemon 테이블에 있는 포켓몬 수를 구하는 쿼리를 작성해주세요.
+```
+# 그룹화할 때 사용할 컬럼: X
+# 집계할 때 사용할 계산: 수를 구한다 => COUNT
+
+SELECT
+  COUNT(id) AS cnt
+FROM basic.pokemon
+```
+
+### GROUP BY 연습 문제 2. 포켓몬의 수가 세대별로 얼마나 있는지 알 수 있는 쿼리를 작성해주세요
+```
+# 그룹화할 때 사용할 컬럼: generation
+# 집계할 때 사용할 계산: 얼마나 있는지 => 수를 구한다 => COUNT
+
+SELECT
+ generation,
+ COUNT(id) AS cnt
+FROM basic.pokemon
+GROUP BY
+ generation;
+```
 
 ### 그룹화(집계) 활용 포인트
 데이터 분석하다가 그룹화하는 경우
