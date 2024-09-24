@@ -185,41 +185,11 @@ GROUP BY
 | SUM | 	Gets the sum of non-NULL values. |
 
 -전체 리스트
-![image](https://github.com/user-attachments/assets/c2e26786-c4be-429d-8ea7-7545d9ec607d)
-
-### DISTINCT: 고유값을 알고 싶은 경우(중복을 제거하는 것)
--1,2,3,3,4=>DISTINCT하면?=>1,2,3,4
-```
-SELECT
- 집계할 컬럼,
- COUNT(DISTINCT count할_컬럼)
-FROM table
-GROUP BY
- 집계할 컬럼
-```
-
-### GROUP BY 연습문제
-#### 연습문제 1. pokemon 테이블에 있는 포켓몬 수를 구하는 쿼리를 작성해주세요
-```
-# 그룹화할 때 사용할 컬럼: X
-# 집할 때 사용할 계산: 수를 구한다 ==> COUNT
-SELECT
- count(id) as cnt,
-FROM basic.pokemon;
-```
-#### 연습문제 2. 포켓몬의 수가 세대별로 얼마나 있는지 알 수 있는 쿼리를 작성해주세요.
-```
-# 그룹화할 때 사용할 컬럼: generation
-# 집계할 때 사용할 계산: 얼마나 있는지 ==> 수를 구한다 ==> COUNT
-SELECT
-  generation,
-  COUNT(id) AS cnt
-FROM basic.pokemon
-GROUP BY
-  generation;
+![image](https://github.com/user-attachments/assets/c2e26786-c4be-429d-8ea7-75ㅇ
 
 
 ### 그룹화(집계) 활용 포인트
+
 데이터 분석 중 그룹화하는 경우(예시)
 - 일자별 집계(원본 데이터는 특정 시간에 어떤 유저가 한 행동이 기록, 일자별로 집계)
 - 연령대별 집계(특정 연령대에서 더 많이 구매했는가?)
