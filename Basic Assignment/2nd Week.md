@@ -303,4 +303,27 @@ SELECT
 FROM Table
 LIMIT 10
 ```
-ORDER BY와 함께 맨 아래에 위치.
+ORDER BY와 함께 맨 아래에 위치
+
+### GROUP BY 연습 문제 3. 포켓몬의 수를 타입별로 집계하고, 포켓몬의 수가 10 이상인 타입만 남기는 쿼리를 작성해주세요. 포켓몬의 수가 많은 순으로 정렬해주세요.
+```
+# 타입별로 집계 => SELECT type1, GROUP BY type1
+# 포켓몬의 수를 세는 것 => COUNT(id)
+# GROUP BY 이후 조건: 포컷몬의 수가 10 이상 => HAVING
+포켓몬의 수가 많은 순으로 정렬: => 내림차순정렬 => ORDER BY 포켓몬 수 DESC
+
+SELECT
+ type1,
+ count(id) as cnt
+FROM basic.pokemon
+GROUP BY type1 
+HAVING cnt>=10
+order by cnt DESC;
+```
+
+### 요약, 집계, 그룹화 정리
+- 집계: GROUP BY + 집계 함수(AVG, MAX 등)
+- 고유값: DISTINCT
+- 조건: WHERE/HAVING
+- 정렬: ORDER BY
+- 출력 개수 제한: LIMIT
