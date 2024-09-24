@@ -189,10 +189,85 @@ GROUP BY
 
 
 ### 그룹화(집계) 활용 포인트
-
-데이터 분석 중 그룹화하는 경우(예시)
+데이터 분석하다가 그룹화하는 경우
 - 일자별 집계(원본 데이터는 특정 시간에 어떤 유저가 한 행동이 기록, 일자별로 집계)
 - 연령대별 집계(특정 연령대에서 더 많이 구매했는가?)
 - 특정 타입별 집계(특정 제품 타입을 많이 구매했는가?)
 - 앱 화면별 집계(어떤 화면에 유저가 많이 접근했는가?)
-=> 조합할 수도 있음.
+
+
+### 조건을 설정하고 싶은 경우: WHERE
+WHERE
+- 테이블에 바로 조건을 설정하고 싶은 경우 사용   
+- Raw Data인 테이블 데이터에서 조건 설정
+```
+SELECT
+ 컬럼1, 컬럼2
+ COUNT(컬럼1) AS col1_count
+FROM <table>
+WHERE
+ 컬럼1 >= 3
+```
+### 조건을 설정하는 경우: HAVING
+HAVING
+- **GROUP BY한 후** 조건을 설정하고 싶은 경우 사용
+- 새롭게 만든 컬럼(이미 한 번 계산한 결괏)에 대해 조건을 걸 수 있음
+```
+SELECT
+ 컬럼1, 컬럼2
+ COUNT(컬럼1) AS col1_count
+FROM <table>
+GROUP BY 컬럼1, 컬럼2
+HAVING
+ col1_count > 3
+```
+*쿼리의 FROM 절에 다른 쿼리(서브쿼리)가 들어갈 수 있다.
+
+### 조건을 설정하고 싶은 경우: WHERE이랑 HAVING의 차이는?
+- WHERE
+  - Table에 바로 조건을 사용하고 싶은 경우 사용
+- HAVING
+  - GROUP BY한 후 조건을 설정하고 싶은 경우 사용
+
+- 같이 사용하는 경우
+```
+SELECT
+ 컬럼1, 컬럼2
+ COUNT(컬럼1) AS col1_count
+FROM <table>
+WHERE
+ 컬럼1 >= 3
+GROUP BY 컬럼1, 컬럼2
+HAVING
+ col1_count > 3
+```
+
+### 서브쿼리
+- SELECT문 안에 존재하는 SELECT 쿼리
+- FROM 절에 또다른 SELECT문을 넣을 수 있음
+- 괄호로 묶어서 사용
+- 서브쿼리를 작성하고, 서브쿼리 바깥에서 WHERE 조건 설정하는 것 = 서브쿼리에서 HAVING으로 하는 것
+- ![image](https://github.com/user-attachments/assets/c17fb74b-bcaf-41fc-95e7-2b11a6647de8)
+
+
+### 정렬하기: ORDER BY
+```
+SELECT
+ col
+FROM
+ORDER BY <컬럼> <순서>
+```
+- 순서: DESC(내림차순), OSC(오름차순-보통 Default임)
+- ORDER BY는 쿼리의 마지막에 작
+
+### 출력 개수 제한하기: LIMIT
+- 쿼리문의 결과 Row 수를 제한하고 싶은 경우 사용.
+
+**쿼리문의 제일 마지막에 작성**
+```
+SELECT
+    col
+FROM Table
+LIMIT 10
+```
+ORDER BY와 함께 맨 아래에 위치.
