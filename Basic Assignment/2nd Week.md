@@ -280,7 +280,7 @@ HAVING
 - FROM 절에 또다른 SELECT문을 넣을 수 있음
 - 괄호로 묶어서 사용
 - 서브쿼리를 작성하고, 서브쿼리 바깥에서 WHERE 조건 설정하는 것 = 서브쿼리에서 HAVING으로 하는 것
-- ![image](https://github.com/user-attachments/assets/c17fb74b-bcaf-41fc-95e7-2b11a6647de8)
+ ![image](https://github.com/user-attachments/assets/c17fb74b-bcaf-41fc-95e7-2b11a6647de8)
 
 
 ### 정렬하기: ORDER BY
