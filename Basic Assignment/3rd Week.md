@@ -12,7 +12,7 @@ WHERE
  type2 IS NULL
 GROUP BY type2;
 ```
-![1](../image/Q1.png)
+![1번문제](../Basic Assignment/image/Q1.png)
 
 #### 설명
 ```
