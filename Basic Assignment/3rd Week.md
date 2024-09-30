@@ -178,7 +178,7 @@ FROM basic.trainer
 GROUP BY
  name
 HAVING
- trainer_cnt >=2
+ trainer_cnt >=2;
 ```
 - 집계 후 조건 -> HAVING
 - FROM 절의 테이블 조건 -> WHERE
@@ -195,52 +195,165 @@ FROM (
     name
 )
 WHERE
-  trainer_cnt >=2
+  trainer_cnt >=2;
  ```
 ![5번문제](/Basic%20Assignment/3rd_week_img/Q5.png)
+
 ### 6. trainer 테이블에서 "Iris"트레이너의 정보를 알 수 있는 쿼리를 작성해주세요.
 #### 풀이
 * 보여줘야하는 것: 트레이너의 정보
-* 조건: X
+* 조건: 이름이 Iris
+```
+SELECT
+  *
+FROM basic.trainer
+WHERE
+ name = 'Iris';
+```
 #### 설명
+- 테이블: trainer
+- 조건: 트레이너의 이름 = 'Iris'
+- 컬럼: 정보 -> 모든 컬럼
+- 집계: X
+
 #### 정답
+```
+SELECT
+  *
+FROM basic.trainer
+WHERE
+ name = 'Iris';
+```
+![6번문제](/Basic%20Assignment/3rd_week_img/Q6.png)
 
 ### 7. trainer 테이블에서 "Iris", "Whitney", "Cynthia" 트레이너의 정보를 알 수 있는 쿼리를 작성해주세요.
 #### 풀이
 * 보여줘야하는 것: 트레이너들의 정보
-* 조건: X
+* 조건: 이름= "Iris", "Whitney", "Cynthia" -> OR 사용
+```
+SELECT
+  *
+FROM basic.trainer
+WHERE
+ (name = "Iris") OR (name = "Whitney") OR (name = "Cynthia");
+```
 #### 설명
+- 테이블: trainer
+- 조건: 트레이너의 이름 = "Iris", "Whitney", "Cynthia" 중에 있으면 추출
+- 컬럼: 정보 -> 모든 컬럼
+- 집계: X
 #### 정답
+```
+SELECT
+  *
+FROM basic.trainer
+WHERE
+ (name = "Iris") 
+ OR (name = "Whitney") 
+ OR (name = "Cynthia");
+```
+![7번문제](/Basic%20Assignment/3rd_week_img/Q7.png)
+```
+# IN을 이용해 간단하게 만들기
+SELECT
+  *
+FROM basic.trainer
+WHERE
+ name IN("Iris", "Whitney", "Cynthia");
+*IN-> name에 괄호 안의 Value가 있는 Row만 추출
+```
 
 ### 8. 전체 포켓몬 수는 얼마나 되나요?
 #### 풀이
 * 보여줘야하는 것: 전체 포켓몬 수
-* 포켓몬 수: count 함수 -> GROUP BY
+* 포켓몬 수: count 함수 -> GROUP BY(이번에는 데이터 묶는 건 없어서 불필요)
+```
+SELECT
+ count(id) AS cnt_pokemon
+FROM basic.pokemon;
+```
 #### 설명
+- 테이블: pokemon
+- 조건: X
+- 컬럼: X
+- 집계: 포켓몬 수 -> COUNT(id)
 #### 정답
+```
+SELECT
+ count(id) AS cnt_pokemon
+FROM basic.pokemon;
+```
+![8번문제](/Basic%20Assignment/3rd_week_img/Q8.png)
 
 ### 9. 세대(generation)별로 포켓몬 수가 얼마나 되는지 알 수 있는 쿼리를 작성해주세요.
+#### 풀이
 * 보여줘야하는 것: 포켓몬 수
 * 집계: 세대
-* 포켓몬 수: count 함수 -> GROUP BY
-
-#### 풀이
+* 포켓몬 수: count 함수 -> GROUP BY(세대)
+```
+SELECT
+ generation,
+ count(id) AS cnt_generation
+FROM basic.pokemon
+GROUP BY
+ generation;
+```
 #### 설명
+- 테이블: pokemon
+- 조건: X
+- 컬럼: 세대(generation)
+- 집계: 포켓몬 수 -> COUNT(id)
 #### 정답
+```
+SELECT
+ generation,
+ count(id) AS cnt_generation
+FROM basic.pokemon
+GROUP BY
+ generation;
+```
+![9번문제](/Basic%20Assignment/3rd_week_img/Q9.png)
 
 ### 10. type2가 존재하는 포켓몬의 수는 얼마나 되나요?
 #### 풀이
 * 보여줘야하는 것: 포켓몬 수
 * 조건: type2가 존재(null값이 아님)
 * 포켓몬 수: count 함수 -> GROUP BY
+```
+SELECT
+ count(id) as pokemon_cnt
+FROM basic.pokemon
+WHERE
+ type2 IS NOT NULL
+```
 #### 설명
+- 테이블: pokemon
+- 조건: type2가 존재 -> IS NOT NULL
+- 컬럼: 세대(generation)
+- 집계: 포켓몬 수 -> COUNT(id)
 #### 정답
+```
+SELECT
+ count(id) as pokemon_cnt
+FROM basic.pokemon
+WHERE
+ type2 IS NOT NULL
+```
+![10번문제](/Basic%20Assignment/3rd_week_img/Q10.png)
 
 ### 11. type2가 있는 포켓몬 중에 제일 많은 type1은 무엇인가요?
 #### 풀이
 * 보여줘야하는 것: type1
 * 조건: type2가 존재(null값이 아님)
+```
+SELECT
+FROM basic.pokemon
+```
 #### 설명
+- 테이블: pokemon
+- 조건: type2가 존재 -> IS NOT NULL
+- 컬럼: 세대(generation)
+- 집계: 포켓몬 수 -> COUNT(id)
 #### 정답
 
 ### 12. 단일(하나의 타입만 있는) 포켓몬 중 가장 많은 type1은 무엇일까요?
