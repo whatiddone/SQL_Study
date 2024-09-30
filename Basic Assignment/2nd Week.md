@@ -34,7 +34,7 @@ WHERE
 이런 형태도 가능
 
 ### 데이터가 여러 장소에 저장되어 있는 경우
-- 특정 Tabled에 있는 데이터를 각각 추출 후, 연결하기(Join)
+- 특정 Table에 있는 데이터를 각각 추출 후, 연결하기(Join)
 
 ### BigQuery에서 쿼리 실행하기
 ```
@@ -171,7 +171,8 @@ FROM Table
 GROUP BY
  집계할_컬럼1
 ```
- **집계할 컬럼을 SELECT에 명시하고 그 컬럼을 꼭 GROUP BY에 작성**
+ **집계할 컬럼을 SELECT에 명시하고 그 컬럼을 꼭 GROUP BY에 작성**<br>
+ **->COUNT, SUM, AVG, MAX, MIN 같은 **집계 함수(Aggregate Functions)**를 사용할 때는 GROUP BY가 필요**
 
  ### 집계 함수 종류
 | Name | Summary |
@@ -235,7 +236,7 @@ WHERE
 - Raw Data인 테이블 데이터에서 조건 설정
 ```
 SELECT
- 컬럼1, 컬럼2
+ 컬럼1, 컬럼2,
  COUNT(컬럼1) AS col1_count
 FROM <table>
 WHERE
@@ -288,7 +289,7 @@ HAVING
 SELECT
  col
 FROM
-ORDER BY <컬럼> <순서>
+ORDER BY <컬럼> <순서>;
 ```
 - 순서: DESC(내림차순), OSC(오름차순-보통 Default임)
 - ORDER BY는 쿼리의 마지막에 작
@@ -301,7 +302,7 @@ ORDER BY <컬럼> <순서>
 SELECT
     col
 FROM Table
-LIMIT 10
+LIMIT 10;
 ```
 ORDER BY와 함께 맨 아래에 위치
 
