@@ -83,6 +83,7 @@ ORDER BY
  pokemon_cnt DESC;
 ```
 ![2번문제](/Basic%20Assignment/3rd_week_img/Q2_2.png)
+---
 
 ### 3. type2 상관없이 type1의 포켓몬 수를 알 수 있는 쿼리를 작성해주세요.
 #### 풀이
@@ -114,7 +115,7 @@ GROUP BY
  type1;
 ```
 ![3번문제](/Basic%20Assignment/3rd_week_img/Q3_1.png)
-
+---
 ### 4. 전설 여부에 따른 포켓몬 수를 알 수 있는 쿼리를 작성해주세요.
 #### 풀이
 * 보여줘야 하는 거: 포켓몬 수
@@ -150,6 +151,8 @@ GROUP BY
   - GROUP BY/ORDER BY 1,2,3... : SELECT의 1,2,3번째 컬럼을 의미
   - 예) SELECT id 일 때, GROUP BY id = GROUP BY 1
   - 그러나 완성된 쿼리문에서는 가독성을 위해 명확하게 컬럼을 명시하기
+  ---
+
 ### 5. 동명 이인이 있는 이름은 무엇일까요? (한번에 찾으려고 하지 않고 단계적으로 가도 괜찮아요)
 #### 풀이
 * 보여줘야하는 것: 이름 -> 트레이너 테이블
@@ -198,8 +201,10 @@ WHERE
   trainer_cnt >=2;
  ```
 ![5번문제](/Basic%20Assignment/3rd_week_img/Q5.png)
+---
 
 ### 6. trainer 테이블에서 "Iris"트레이너의 정보를 알 수 있는 쿼리를 작성해주세요.
+
 #### 풀이
 * 보여줘야하는 것: 트레이너의 정보
 * 조건: 이름이 Iris
@@ -225,6 +230,7 @@ WHERE
  name = 'Iris';
 ```
 ![6번문제](/Basic%20Assignment/3rd_week_img/Q6.png)
+---
 
 ### 7. trainer 테이블에서 "Iris", "Whitney", "Cynthia" 트레이너의 정보를 알 수 있는 쿼리를 작성해주세요.
 #### 풀이
@@ -262,6 +268,7 @@ WHERE
  name IN("Iris", "Whitney", "Cynthia");
 *IN-> name에 괄호 안의 Value가 있는 Row만 추출
 ```
+---
 
 ### 8. 전체 포켓몬 수는 얼마나 되나요?
 #### 풀이
@@ -284,6 +291,7 @@ SELECT
 FROM basic.pokemon;
 ```
 ![8번문제](/Basic%20Assignment/3rd_week_img/Q8.png)
+---
 
 ### 9. 세대(generation)별로 포켓몬 수가 얼마나 되는지 알 수 있는 쿼리를 작성해주세요.
 #### 풀이
@@ -313,6 +321,7 @@ GROUP BY
  generation;
 ```
 ![9번문제](/Basic%20Assignment/3rd_week_img/Q9.png)
+---
 
 ### 10. type2가 존재하는 포켓몬의 수는 얼마나 되나요?
 #### 풀이
@@ -340,6 +349,7 @@ WHERE
  type2 IS NOT NULL;
 ```
 ![10번문제](/Basic%20Assignment/3rd_week_img/Q10.png)
+---
 
 ### 11. type2가 있는 포켓몬 중에 제일 많은 type1은 무엇인가요?
 #### 풀이
@@ -377,6 +387,8 @@ ORDER BY
 LIMIT 1; # 제일 많은 행(가장 윗 행) 하나만 출력
 ```
 ![11번문제](/Basic%20Assignment/3rd_week_img/Q11.png)
+---
+
 ### 12. 단일(하나의 타입만 있는) 포켓몬 중 가장 많은 type1은 무엇일까요?
 #### 풀이
 * 보여줘야하는 것: type1
@@ -416,6 +428,7 @@ LIMIT 1;
 ```
 ![내가 푼 거](/Basic%20Assignment/3rd_week_img/Q12.png) |![정답](/Basic%20Assignment/3rd_week_img/Q12_1.png)
 - 두 가지 방법이 있는 것 같은데 확인 한번만 부탁드립니다 :D
+---
 
 ### 13. 포켓몬의 이름에 "파"가 들어가는 포켓몬은 어떤 포켓몬이 있을까요?
 #### 풀이
@@ -445,6 +458,7 @@ WHERE
   - '%파': 파로 끝나는 단어, '파%': 파로 시작하는 단어, '%파%': 파가 들어간 단어
 - 문자열 컬럼에서 특정 단어가 포함되어 있는지 알고 싶은 경우에는 LIKE를 사용하면 편함.
 ![13번문제](/Basic%20Assignment/3rd_week_img/Q13.png)
+---
 
 ### 14. 뱃지가 6개 이상인 트레이너는 몇 명이 있나요?
 #### 풀이
@@ -516,6 +530,8 @@ FROM (
 - Aggregations of aggregations are not allowed 오류
   -  SQL에서는 집계 함수(SUM, COUNT 등)를 또 다른 집계 함수 안에 직접 사용하는 것이 허용되지 않음!
   - 해결하려면 내부 쿼리를 사용하여 먼저 집계한 다음, 그 결과를 외부 쿼리에서 다시 집계해야 한다.
+  ---
+
 ### 15. 트레이너가 보유한 포켓몬(trainer_pokemon)이 제일 많은 트레이너는 누구일까요?
 #### 풀이
 * 보여줘야하는 것: 트레이너 이름(id)
@@ -550,6 +566,8 @@ GROUP BY
 ```
 ![15번문제](/Basic%20Assignment/3rd_week_img/Q15.png)
 - 종류를 보려면 'count(DISTINCT pokemon_id) 사용하기'
+---
+
 ### 16. 포켓몬을 가장 많이 풀어준 트레이너는 누구일까요?
 #### 풀이
 * 보여줘야하는 것: 트레이너 이름
@@ -590,6 +608,7 @@ ORDER BY
 LIMIT 1;
 ```
 ![16번문제](/Basic%20Assignment/3rd_week_img/Q16.png)
+---
 
 ### 17. 트레이너 별로 풀어준 포켓몬의 비율이 20%가 넘은 포켓몬 트레이너는 누구일까요? 풀어준 포켓몬의 비율=(풀어준 포켓몬 수/전체 포켓몬의 수)
 #### 풀이
@@ -658,3 +677,28 @@ HAVING
 - 이를 해결하려면 HAVING 절에서 직접 계산식이나 집계 함수를 다시 사용해야 합니다.
   - HAVING 절에서 (COUNTIF(status = "Released") * 1.0 / COUNT(pokemon_id)) >= 0.2로 직접 비율을 계산했습니다.
 ![17번연습](/Basic%20Assignment/3rd_week_img/T17.png)
+---
+# 2-7. 정리
+- 조건(필터링): WHERE(FROM절에서 필터링), HAVING(집계이후에서 필터링)
+- 추출: SELECT
+- 요약(집계): GROUP BY
+  - AVG
+  - COUNT
+  - COUNTIF
+  - SUM
+  - MAX
+  - MIN
+- 정렬: ORDER BY: ASC(오름차순)/DESC(내림차순)
+- WHERE-> IN, LIKE(%), IS NULL
+- 서브쿼리
+```
+SELECT
+FROM(
+  SELECT
+  FROM
+)
+```
+- DISTINCT: 고윳값
+---
+# 2-8. 새로운 집계 함수 소개(GROUP BY ALL)
+- 자동으로 GROUP BY 해주는 함수
