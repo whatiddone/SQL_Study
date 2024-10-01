@@ -324,7 +324,7 @@ SELECT
  count(id) as pokemon_cnt
 FROM basic.pokemon
 WHERE
- type2 IS NOT NULL
+ type2 IS NOT NULL;
 ```
 #### 설명
 - 테이블: pokemon
@@ -337,7 +337,7 @@ SELECT
  count(id) as pokemon_cnt
 FROM basic.pokemon
 WHERE
- type2 IS NOT NULL
+ type2 IS NOT NULL;
 ```
 ![10번문제](/Basic%20Assignment/3rd_week_img/Q10.png)
 
@@ -345,24 +345,70 @@ WHERE
 #### 풀이
 * 보여줘야하는 것: type1
 * 조건: type2가 존재(null값이 아님)
+* 제일 많은 -> max
 ```
 SELECT
+ type1,
+ max(id) as max_type
 FROM basic.pokemon
+WHERE
+ type2 IS NOT NULL
+GROUP BY
+ type1;
 ```
+* MAX 함수는 주어진 컬럼에서 가장 큰 값을 찾을 때 사용하는 집계 함수입니다. 주로 숫자, 날짜, 또는 알파벳 순서에서 최대값을 찾을 수 있습니다.
 #### 설명
 - 테이블: pokemon
-- 조건: type2가 존재 -> IS NOT NULL
-- 컬럼: 세대(generation)
-- 집계: 포켓몬 수 -> COUNT(id)
+- 조건: type2가 있는
+- 컬럼: type1
+- 집계: 가장 많은 -> COUNT(id)
 #### 정답
-
+```
+SELECT
+  type1,
+  COUNT(id) AS pokemon_cnt
+FROM basic.pokemon
+WHERE 
+  type2 IS not NULL
+GROUP BY 
+  type1
+ORDER BY 
+  cnt DESC
+LIMIT 1; # 제일 많은 행(가장 윗 행) 하나만 출력
+```
+![11번문제](/Basic%20Assignment/3rd_week_img/Q11.png)
 ### 12. 단일(하나의 타입만 있는) 포켓몬 중 가장 많은 type1은 무엇일까요?
 #### 풀이
 * 보여줘야하는 것: type1
 * 조건: type1은 존재하고 type2가 null AND type1이 null이고 type2가 존재
+```
+SELECT
+  type1,
+  COUNT(id) AS pokemon_cnt
+FROM basic.pokemon
+WHERE 
+  (type1 IS NOT NULL AND type2 IS NULL)
+  OR (type1 IS NULL AND type2 IS NOT NULL)
+GROUP BY 
+  type1;
+```
 #### 설명
+- 테이블: pokemon
+- 조건: 단일 타입 -> 하나의 타입만 존재 -> type2가 NULL(값이 없어야 한다.)
+- 컬럼: type1
+- 집계: COUNT
 #### 정답
-
+```
+SELECT
+  type1,
+  COUNT(id) AS pokemon_cnt
+FROM basic.pokemon
+WHERE 
+  type2 IS NULL
+GROUP BY 
+  type1;
+```
+![내가 푼 거](/Basic%20Assignment/3rd_week_img/) |![image.jpg2](https://steemitimages.com/0x0/https://static.tasteem.io/uploads/image/image/7293/content_994dbe3f-631b-4f76-9ee1-751c87c668dd.jpeg)
 ### 13. 포켓몬의 이름에 "파"가 들어가는 포켓몬은 어떤 포켓몬이 있을까요?
 #### 풀이
 * 보여줘야하는 것: 포켓몬 이름
