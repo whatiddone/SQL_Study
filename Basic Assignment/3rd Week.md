@@ -390,7 +390,10 @@ WHERE
   (type1 IS NOT NULL AND type2 IS NULL)
   OR (type1 IS NULL AND type2 IS NOT NULL)
 GROUP BY 
-  type1;
+  type1
+ORDER BY
+ pokemon_cnt DESC
+LIMIT 1;
 ```
 #### 설명
 - 테이블: pokemon
@@ -406,43 +409,252 @@ FROM basic.pokemon
 WHERE 
   type2 IS NULL
 GROUP BY 
-  type1;
+  type1
+ORDER BY
+ pokemon_cnt DESC
+LIMIT 1;
 ```
-![내가 푼 거](/Basic%20Assignment/3rd_week_img/) |![image.jpg2](https://steemitimages.com/0x0/https://static.tasteem.io/uploads/image/image/7293/content_994dbe3f-631b-4f76-9ee1-751c87c668dd.jpeg)
+![내가 푼 거](/Basic%20Assignment/3rd_week_img/Q12.png) |![정답](/Basic%20Assignment/3rd_week_img/Q12_1.png)
+- 두 가지 방법이 있는 것 같은데 확인 한번만 부탁드립니다 :D
+
 ### 13. 포켓몬의 이름에 "파"가 들어가는 포켓몬은 어떤 포켓몬이 있을까요?
 #### 풀이
-* 보여줘야하는 것: 포켓몬 이름
+* 보여줘야하는 것: 포켓몬 이름:한글
 * 조건: 이름에 '파'
+```
+SELECT
+  kor_name
+FROM basic.pokemon
+WHERE
+ kor_name LIKE "파%";
+```
 #### 설명
+- 테이블:  pokemon
+- 조건: name에 '파'가 들어가는 포켓몬
+- 컬럼: 어떤 포켓몬이 있을까요? name
+- 집계: 없음
 #### 정답
+```
+SELECT
+  kor_name
+FROM basic.pokemon
+WHERE
+ kor_name LIKE "%파%";
+```
+- 컬럼 LIKE '특정단어%', %는 단어 앞뒤에 모두 붙을 수 있음
+  - '%파': 파로 끝나는 단어, '파%': 파로 시작하는 단어, '%파%': 파가 들어간 단어
+- 문자열 컬럼에서 특정 단어가 포함되어 있는지 알고 싶은 경우에는 LIKE를 사용하면 편함.
+![13번문제](/Basic%20Assignment/3rd_week_img/Q13.png)
 
 ### 14. 뱃지가 6개 이상인 트레이너는 몇 명이 있나요?
 #### 풀이
 * 보여줘야하는 것: 트레이너 수
 * 조건: 뱃지 >= 6
 * 트레이너 수: count 함수 -> GROUP BY
+```
+SELECT
+  badge_count
+  COUNT(id) AS trainer_cnt
+FROM basic.trainer
+WHERE 
+  badge_count >=6
+GROUP BY
+ badge_count;
+```
 #### 설명
+- 테이블: trainer
+- 조건: 뱃지가 6개 이상(badge_count >=)
+- 컬럼: X
+- 집계: 트레이너의 수(COUNT)
 #### 정답
+```
+SELECT
+  COUNT(id) AS trainer_cnt
+FROM basic.trainer
+WHERE 
+  badge_count >=6;
+```
+![14번문제](/Basic%20Assignment/3rd_week_img/Q14.png)
+#### GPT와 연습
+```
+-- 먼저 badge_count별로 trainer_cnt를 구하고, 그 결과를 서브쿼리로 감쌉니다
+SELECT 
+  CAST(badge_count AS STRING) AS badge_count, -- badge_count를 문자열로 변환
+  trainer_cnt
+FROM (
+  SELECT
+    badge_count,
+    COUNT(id) AS trainer_cnt
+  FROM basic.trainer
+  WHERE 
+    badge_count >= 6
+  GROUP BY
+    badge_count
+)
 
+UNION ALL
+
+-- 총합을 구하는 부분
+SELECT
+  'Total' AS badge_count,  -- 새 행에 "Total" 표시
+  SUM(trainer_cnt) AS trainer_cnt -- trainer_cnt의 합계
+FROM (
+  SELECT
+    badge_count,
+    COUNT(id) AS trainer_cnt
+  FROM basic.trainer
+  WHERE 
+    badge_count >= 6
+  GROUP BY
+    badge_count
+);
+```
+![14번연습](/Basic%20Assignment/3rd_week_img/T14.png)
+- UNION ALL을 사용해 합계 행을 추가
+- UNION ALL을 사용할 때 각 열의 데이터 유형이 일치해야 한다
+  - badge_count는 INT64 형식이지만 합계 행에서는 문자열 'Total'을 사용했기 때문에 문제 발생 -> CAST 또는 CONVERT 함수를 통해 badge_count를 문자열로 변환
+- Aggregations of aggregations are not allowed 오류
+  -  SQL에서는 집계 함수(SUM, COUNT 등)를 또 다른 집계 함수 안에 직접 사용하는 것이 허용되지 않음!
+  - 해결하려면 내부 쿼리를 사용하여 먼저 집계한 다음, 그 결과를 외부 쿼리에서 다시 집계해야 한다.
 ### 15. 트레이너가 보유한 포켓몬(trainer_pokemon)이 제일 많은 트레이너는 누구일까요?
 #### 풀이
-* 보여줘야하는 것: 트레이너 이름
-* 조건: trainer_pokemon이 max
-* MAX: 집계함수 -> GROUP BY
+* 보여줘야하는 것: 트레이너 이름(id)
+* 조건: X
+* 포켓몬 수 COUNT -> GROUP BY
+* 내림차순: DESC
+* LIMTI 1
+```
+SELECT
+ trainer_id,
+ count(pokemon_id) AS pokemon_cnt
+FROM basic.trainer_pokemon
+GROUP BY
+ trainer_id
+ORDER BY
+  cnt DESC
+LIMIT 1;
+```
 #### 설명
+- 테이블: trainer_pokemon
+- 조건: X
+- 컬럼: trainer_id
+- 집계: 포켓몬의 수 -> count
 #### 정답
-
+```
+SELECT
+ trainer_id,
+ count(pokemon_id) AS pokemon_cnt
+FROM basic.trainer_pokemon
+GROUP BY
+ trainer_id;
+```
+![15번문제](/Basic%20Assignment/3rd_week_img/Q15.png)
+- 종류를 보려면 'count(DISTINCT pokemon_id) 사용하기'
 ### 16. 포켓몬을 가장 많이 풀어준 트레이너는 누구일까요?
 #### 풀이
 * 보여줘야하는 것: 트레이너 이름
-* 조건: 풀어준 포켓몬이 max
-* MAX: 집계함수 -> GROUP BY
+* 조건: 풀린 포켓몬
+* 풀린 포켓몬 수 COUNT : 집계함수 -> GROUP BY
+* 내림차순: DESC
+* LIMTI 1
+```
+SELECT
+ trainer_id,
+ count(pokemon_id) AS pokemon_cnt
+FROM basic.trainer_pokemon
+WHERE
+ status = "Released"
+GROUP BY
+ trainer_id
+ORDER BY
+  pokemon_cnt DESC
+LIMIT 1;
+```
 #### 설명
+- 테이블: trainer_pokemon
+- 조건: status = "Released"(풀어준)
+- 컬럼: trainer_id
+- 집계: 많이 풀어준 -> COUNT
 #### 정답
+```
+SELECT
+ trainer_id,
+ count(pokemon_id) AS pokemon_cnt
+FROM basic.trainer_pokemon
+WHERE
+ status = "Released"
+GROUP BY
+ trainer_id
+ORDER BY
+  pokemon_cnt DESC
+LIMIT 1;
+```
+![16번문제](/Basic%20Assignment/3rd_week_img/Q16.png)
 
 ### 17. 트레이너 별로 풀어준 포켓몬의 비율이 20%가 넘은 포켓몬 트레이너는 누구일까요? 풀어준 포켓몬의 비율=(풀어준 포켓몬 수/전체 포켓몬의 수)
 #### 풀이
-* 보여줘야하는 것: 트레이너 이름
+* 보여줘야하는 것: 트레이너 id
 * 조건: 풀어준 포켓몬의 비율 >= 20%
+```
+SELECT
+ trainer_id,
+ count(pokemon_id) AS pokemon_cnt,
+ countif(status = "Released") AS released_pokemon,
+ (released_pokemon/pokemon_cnt) AS Release_Ratio
+FROM basic.trainer_pokemon
+GROUP BY
+ trainer_id
+HAVING
+  Release_Ratio >= 0.2
+```
 #### 설명
+- 테이블: trainer_pokemon
+- 조건: 풀어준 포켓몬의 비율이 20%가 넘어야 한다.
+- 컬럼: trainer_id
+- 집계: COUNTIF
+  - COUNTIF(조건): COUNTIF(컬럼="3")
+  - 조건을 거는 것이라, SELECT 쪽에 COUNT 쓰고, 나중에 WHERE 걸어줘도 괜찮다. 
+  ```
+  SELECT 
+    COUNTIF(trainer_id=17)
+  와
+  SELECT
+    COUNT(id)
+  ...
+  WHERE
+    trainer_id=17
+  는 같다.
+  ```
+
 #### 정답
+```
+SELECT
+ trainer_id,
+ countif(status = "Released") AS released_cnt, # 풀어준 포켓몬의 수
+ count(pokemon_id) AS pokemon_cnt,
+ countif(status = "Released")/COUNT(pokemon_id) AS released_ratio # 이런 식으로 SELECT 절에서 연산을 수행할 수 있다.
+FROM basic.trainer_pokemon
+GROUP BY
+ trainer_id
+HAVING
+  Release_Ratio >= 0.2;
+```
+![17번문제](/Basic%20Assignment/3rd_week_img/Q17.png)
+
+#### GPT와 연습
+```
+SELECT
+  trainer_id,
+  COUNT(pokemon_id) AS pokemon_cnt,
+  COUNTIF(status = "Released") AS released_pokemon, -- released_pokemon 계산
+  (COUNTIF(status = "Released") * 1.0 / COUNT(pokemon_id)) AS Release_Ratio -- Release_Ratio 계산
+FROM basic.trainer_pokemon
+GROUP BY
+  trainer_id
+HAVING
+  (COUNTIF(status = "Released") * 1.0 / COUNT(pokemon_id)) >= 0.2; -- Release_Ratio를 직접 계산
+```
+- SELECT 절에서 정의된 별칭(released_pokemon과 Release_Ratio)을 HAVING 절에서 직접 참조할 수 없기 때문에 오류 발생. SQL에서는 HAVING 절이 SELECT 절보다 먼저 처리되기 때문에 별칭을 인식하지 못합니다.
+- 이를 해결하려면 HAVING 절에서 직접 계산식이나 집계 함수를 다시 사용해야 합니다.
+  - HAVING 절에서 (COUNTIF(status = "Released") * 1.0 / COUNT(pokemon_id)) >= 0.2로 직접 비율을 계산했습니다.
+![17번연습](/Basic%20Assignment/3rd_week_img/T17.png)
