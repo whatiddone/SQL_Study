@@ -292,7 +292,7 @@ FROM
 ORDER BY 
   컬럼 순서;
 ```
-- 순서: DESC(내림차순), OSC(오름차순-보통 Default임)
+- 순서: DESC(내림차순), ASC(오름차순-보통 Default임)
 - ORDER BY는 쿼리의 마지막에 작
 
 ### 출력 개수 제한하기: LIMIT
