@@ -4,6 +4,7 @@
   - Error Message를  해석하여 해결 방법 찾아보기
 
 - 오류 예시들
+
 ![1](/Basic%20Assignment/img/4th_week_img/1.png)
 ```
 Syntax error: SELECT list must not be empty at [3:1]
@@ -106,7 +107,32 @@ SELECT
 ---
 
 > # 4-3. 문자열 함수(CONCAT, SPLIT, REPLACE, TRIM, UPPER)
+
+- 문자열: "안녕하세요", "카일스쿨:
+
+- 문자열 데이터로 할 수 있는 대표적인 연산
 ![7](/Basic%20Assignment/img/4th_week_img/7.png)
+
+#### 문자열 붙이기: CONCAT
+```
+SELECT
+  CONCAT("안녕", "하세요") AS result
+# CONCAT 인자로 STRING이나 숫자를 넣을 떄는 데이터를 직접 넣어준 것 -> FROM 없이도 실행
+```
+![8](/Basic%20Assignment/img/4th_week_img/8.png)
+
+#### 문자열 분리하기: SPLIT
+```
+```
+#### 특정 단어 수정하기: REPLACE
+```
+```
+#### 문자열 자르기: TRIM
+```
+```
+#### 영어 소문자를 대문자로 변경: UPPER
+```
+```
 
 ---
 
