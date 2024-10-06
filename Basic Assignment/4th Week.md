@@ -3,9 +3,8 @@
   - 문법을 지키지 않아 발생
   - Error Message를  해석하여 해결 방법 찾아보기
 
-- 오류 예시들
+#### 오류 예시들
 
-![1](/Basic%20Assignment/img/4th_week_img/1.png)
 ```
 Syntax error: SELECT list must not be empty at [3:1]
 
@@ -13,7 +12,6 @@ Syntax error: SELECT list must not be empty at [3:1]
 
 -> SELECT 절에 컬럼을 추가하여 해결
 ```
-![2](/Basic%20Assignment/img/4th_week_img/2.png)
 ```
 Syntax error: Number of arguments does not match for aggregate function COUNT.
 
@@ -23,7 +21,6 @@ Syntax error: Number of arguments does not match for aggregate function COUNT.
 
 # COUNT 함수에는 한 번에 하나의 인자만 들어갈 수 있다.
 ```
-![3](/Basic%20Assignment/img/4th_week_img/3.png)
 ```
 Syntax error: SELECT list expression references column type1 which is neither grouped nor aggregated at [2:3]
 
@@ -31,7 +28,6 @@ Syntax error: SELECT list expression references column type1 which is neither gr
 
 ->  GROUP BY에 적절한 컬럼(type1)을 명시하여 해결
 ```
-![4](/Basic%20Assignment/img/4th_week_img/4.png)
 ```
 Syntax error: Expected end of input but got keyword SELECT at [8:2]
 
@@ -39,7 +35,6 @@ Syntax error: Expected end of input but got keyword SELECT at [8:2]
 
 -> 한 쿼리가 끝났을 때, 세미콜론(;)을 넣어 쿼리가 끝나는 지점을 명시하여 해결
 ```
-![5](/Basic%20Assignment/img/4th_week_img/5.png)
 ```
 Syntax error: Expected end of input but got keyword WHERE at [4:1]
 
@@ -49,7 +44,6 @@ Syntax error: Expected end of input but got keyword WHERE at [4:1]
 
 # LIMIT은 쿼리의 가장 아래에 와야한다.
 ```
-![6](/Basic%20Assignment/img/4th_week_img/6.png)
 ```
 Syntax error: Expected ")" but got end of script at [8:9]
 
@@ -118,22 +112,84 @@ SELECT
 SELECT
   CONCAT("안녕", "하세요") AS result
 # CONCAT 인자로 STRING이나 숫자를 넣을 떄는 데이터를 직접 넣어준 것 -> FROM 없이도 실행
+# CONCAT("컬럼1","컬럼2",...)
 ```
 ![8](/Basic%20Assignment/img/4th_week_img/8.png)
 
 #### 문자열 분리하기: SPLIT
 ```
+SELECT
+  SPLIT("가, 나, 다, 라", ", ") AS result
+# SPLIT("문자열 원본", "나눌 기준이 되는 문자")
 ```
+![9](/Basic%20Assignment/img/4th_week_img/9.png)
+
 #### 특정 단어 수정하기: REPLACE
 ```
+# 특정 단어 수정하기 => REPLACE
+SELECT
+  REPLACE("안녕하세요", "안녕", "실천") AS result
+# REPLACE(문자열 원본, 찾을 단어, 바꿀 단어)
 ```
+![10](/Basic%20Assignment/img/4th_week_img/10.png)
+
 #### 문자열 자르기: TRIM
 ```
+SELECT
+  TRIM("안녕하세요", "하세요") AS result
+# TRIM(문자열 원본, 자를 단어)
 ```
+![11](/Basic%20Assignment/img/4th_week_img/11.png)
+
 #### 영어 소문자를 대문자로 변경: UPPER
 ```
+SELECT
+  UPPER("abc") AS result
 ```
+![12](/Basic%20Assignment/img/4th_week_img/12.png)
 
 ---
 
 > # 4-4. 날짜 및 시간 데이터 이해하기(1)(타임존, UTC, Millisecond, TIMESTAMP/DATETIME)
+#### 날짜 및 시간 데이터의 핵심
+1. 날짜 및 시간 데이터 타입 파악: DATE, DATETIME, TIMESTAMP
+2. 날짜 및 시간 데이터 관련 알면 좋은 내용: UTC, Millisecond
+3. 날짜 및 시간 데이터 타입 변환하기
+4. 시간 함수(두 시간의 차이, 특정 부분 추출하기)
+
+#### 시간 데이터 다루기
+- DATE, DATETIME, TIME, TIMESTAMP
+  - DATE: 2002-03-10 (DATE 만 표시하는 데이터)
+  - DATETIME: 2002-03-10 16:00:00 (DATE와 TIME까지 표시하는 데이터, Time Zone 정보 없음)
+  - TIME: 23:59:59.00 (날짜와 무관하게 시간만 표시하는 데이터)
+  - TIMESTAMP: 2023-12-31 14:00:00 UTC (UTC부터 경과한 시간을 나타내는 값, Time Zone 정보 있음)
+
+- 타임존
+  - UTC(협정 세계시, 한국시간: UTC+9)
+
+- millisecond, microsecond
+  - millisecond: 1000ms=1s. (정밀한 데이터를 위해 사용)
+  - microsecond(μs): 1000μs=1ms
+
+```sql
+SELECT
+  TIMESTAMP_MILLIS(1704172819711) AS milli_to_timestamp_value,
+  TIMESTAMP_MICROS(1704172819711000) AS micro_to_timestamp_value,
+  DATETIME(TIMESTAMP_MICROS(1704172819711000))AS datetime_value,
+  DATETIME(TIMESTAMP_MICROS(1704172819711000), 'Asia/Seoul')AS datetime_value_asia;
+# Datetime에서는 타임존을 넣었는지 체크하기
+# Timestamp는 자동으로 UTC로 계산
+```
+![13](/Basic%20Assignment/img/4th_week_img/13.png)
+
+#### TIMESTAMP와 DATETIME 비교
+![14](/Basic%20Assignment/img/4th_week_img/14.png)
+```
+timestamp: 주로 UTC 기준으로 시간 데이터를 저장하고, 데이터베이스 서버의 시간대에 따라 값을 자동으로 변환해줘요. 따라서 시간대 차이가 있는 환경에서 사용할 때 유리하고, 특히 로그 데이터나 시스템 관련 데이터를 다룰 때 유용해요. 다만, 일반적으로 1970년 1월 1일 이후의 시간을 기록할 수 있는 범위가 있어요(2038년까지).
+
+datetime: 특정 시간대에 상관없이 그 자체로 시간을 기록하고, 시간대에 의한 자동 변환이 없어요. 특정 시간대를 고정해놓고 데이터에 사용해야 하는 경우에 유리해요. 예를 들어, 과거 이벤트나 로컬 시간대 기반의 일정을 기록하는 경우 적합해요.
+
+요약
+timestamp는 시간대 변환이 필요하거나 서버의 시간이 변동될 가능성이 있는 경우 적합해요.
+datetime은 특정 시간대와 무관하게 고정된 시간 정보를 저장하고 싶을 때 좋아요.
+```
