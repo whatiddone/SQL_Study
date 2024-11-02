@@ -118,28 +118,142 @@ FROM(
 * 포켓몬의 수 집계
 * 포획 날짜 기준
 ```sql
-SELECT
-  catch_date as 
-  count(id) as Total_Pokemon
-FROM trainer_pokemon
-WHERE
- 
+SELECT 
+  sum(Total_Pokemon)as all_Pokemon_in_JAN2023
+FROM(
+  SELECT
+    catch_date,
+    count(id) AS Total_Pokemon
+  FROM basic.trainer_pokemon
+  GROUP BY catch_date)
+WHERE DATETIME_TRUNC(catch_date,month) = '2023-01-01'; 
 ```
+- 86개
+![9](/Basic%20Assignment/img/5th_week_img/9.png)
+
 #### 설명
+```
+# 쿼리를 작성하는 목표, 확인할 지표 : 포켓몬의 수
+# 쿼리 계산 방법 : COUNT
+# 데이터의 기간 : 2023년 1월! => catch_datetime을 사용해야 함 => EXTRACT
+# 사용할 테이블: trainer_pokemon
+# Join KEY : X
+# 데이터 특징 : 직접 봐야함!
+  -- catch_date : DATE 타입
+  -- catch_datetime : UTC. TIMESTAMP 타입 => 컬럼의 이름은 datetime인데 TIMESTAMP 타입으로 저장되어 있다!
+  -- catch_date의 기준이 UTC인지 KR인지 확인 필요
+  -- catch_date, catch_datetime 컬럼을 비교 => DATE(DATETIME(catch_datetime, "Asia/Seoul"))
+```
+```
+-- #0. 데이터 검증을 위한 쿼리
+SELECT
+  id,
+  catch_date,
+  DATE(DATETIME(catch_datetime, "Asia/Seoul")) As catch_datetime_kr_date
+FROM basic.trainer_pokemon
+```
+![10](/Basic%20Assignment/img/5th_week_img/10.png)
+```
+catch_datetime 값과 catch_datetime을 서울 시간대로 변환한 값이 서로 다르다.
+```
+```
+SELECT
+  COUNT(*)
+FROM (
+  SELECT
+    id,
+    catch_date,
+    DATE(DATETIME(catch_datetime, "Asia/Seoul")) As catch_datetime_kr_date
+    FROM basic.trainer_pokemon
+    ) 
+WHERE
+  catch_date != catch_datetime_kr_date > 141
+  catch_date = catch_datetime_kr_date > 238
+# != : 같지 않다. 같지 않은 경우는 141건, 같은 경우는 238건
+```
+**컬럼의 설명을 꼭 확인하고 SQL을 작성**
 #### 정답
+```sql
+SELECT
+  COUNT(DISTINCT id) AS cnt
+FROM basic.trainer_pokemon
+WHERE
+  EXTRACT(YEAR FROM DATETIME(catch_datetime, "Asia/Seoul")) = 2023 # catch_datetime은 TIMESTAMP로 저장되어 있으므로, DATETIME으로 변경해야 함
+  AND EXTRACT(MONTH FROM DATETIME(catch_datetime, "Asia/Seoul")) = 1
+```
 ### 2. 배틀이 일어난 시간(battle_datetime)을 기준으로, 오전 6시에서 오후 6시 사이에 일어난 배틀의 수를 계산해주세요.
 #### 풀이
+* 배틀의 수 집계
+* 배틀 시간 기준
+```sql
+SELECT
+ count(DISTINCT id) AS cnt
+FROM basic.battle
+WHERE 
+  EXTRACT(HOUR FROM battle_datetime) >= 6
+  AND EXTRACT(HOUR FROM battle_datetime) <= 18
+```
+- 44개
+![11](/Basic%20Assignment/img/5th_week_img/11.png)
+
 #### 설명
+```
+# 쿼리를 작성하는 목표, 확인할 지표 : 오전 6시 ~ 오후 6시 배틀의 수
+# 쿼리 계산 방법 : COUNT
+# 데이터의 기간 : 일자는 상관없고, 오전 6시 ~ 오후 6시 => battle_datetime => EXTRACT!
+# 사용할 테이블: battle
+# Join KEY : X
+# 데이터 특징
+-- battle_datetime과 DATETIME(battle_timestamp, "Asia/Seoul")이 같은지 확인!
+SELECT
+  COUNTIF(battle_datetime = DATETIME(battle_timestamp, "Asia/Seoul")) AS battle_datetime_same_battle_timestamp_kr, # battle_datetime = DATETIME(battle_timestamp, "Asia/Seoul")이 같은 행의 수
+  COUNTIF(battle_datetime != DATETIME(battle_timestamp, "Asia/Seoul")) AS battle_datetime_not_same_battle_timestamp_kr # battle_datetime = DATETIME(battle_timestamp, "Asia/Seoul")이 다른 행의 수
+FROM basic.battle
+```
 #### 정답
+```
+SELECT
+ count(DISTINCT id) AS cnt
+FROM basic.battle
+WHERE 
+  EXTRACT(HOUR FROM battle_datetime) BETWEEN 6 and 18
+  # HOUR FROM battel_datetime이 '숫자'이기 때문에 BETWEEN 사용 가능
+  # BETWEEN a and b -> a와 b 사이에 있는 것을 반환
+```
+![11](/Basic%20Assignment/img/5th_week_img/11.png)
+
+```
+# 시간대별로 몇 건이 있는가?
+SELECT
+  hour,
+  COUNT(DISTINCT id) AS battle_cnt
+FROM (
+  SELECT
+   *,
+   EXTRACT(HOUR FROM battle_datetime) AS hour
+  FROM basic.battle
+  )
+GROUP BY
+  hour
+ORDER BY
+  hour
+```
+![12](/Basic%20Assignment/img/5th_week_img/12.png)
+
 ### 3. 각 트레이너별로 그들이 포켓몬을 포획한 첫 날(catch_date)을 찾고, 그 날짜를 'DD/MM/YYYY' 형식으로 출력해주세요. (2024-01-01=>01/01/2024)
 #### 풀이
+* DD/MM/YYYY 형식으로 출력
+* 트레이너별 포켓몬을 포획한 첫 날
+* 서브쿼리로 첫 날을 찾고나서 날짜 출력 형태 바꾸기
+```
+```
 #### 설명
 #### 정답
 ### 4. 배틀이 일어난 날짜(battle_date)를 기준으로, 요일별로 배틀이 얼마나 자주 일어났는지 계산해주세요.
 #### 풀이
 #### 설명
 #### 정답
-### 5. 트레이너가 포켓몬을 처음으로 포획한 날짜와 마지막으로 포획한 날짜의 간격이 큰 수능로 정렬하는 쿼리를 작성해주세요.
+### 5. 트레이너가 포켓몬을 처음으로 포획한 날짜와 마지막으로 포획한 날짜의 간격이 큰 순으로 정렬하는 쿼리를 작성해주세요.
 #### 풀이
 #### 설명
 #### 정답
