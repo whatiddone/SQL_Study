@@ -360,7 +360,6 @@ RIGHT: pokemon&trainer
 #### 풀이
 ```sql
 SELECT
-SELECT
   p.type1,
   COUNT(tp.id) AS pokemon_cnt,
   COUNT(DISTINCT tp.trainer_id) AS trainer_cnt
