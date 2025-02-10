@@ -1,3 +1,4 @@
+# 2주차
 ## 문제 1
 ### 우리 플랫폼에 정착한 판매자 1
 
@@ -65,7 +66,8 @@ ROUND(number, decimal_places) <br> 주요 특징:
 decimal_places가 양수이면 소수점 오른쪽의 자릿수까지 반올림합니다. <br>
 decimal_places가 음수이면 소수점 왼쪽의 자릿수를 기준으로 반올림합니다.
 
-## 문제 4
+# 3주차
+## 문제 1
 ### 조건에 맞는 사용자와 총 거래금액 조회하기
 ```sql
 SELECT 
@@ -85,7 +87,7 @@ ORDER BY
   TOTAL_SALES ASC;
 ```
 
-## 문제 5
+## 문제 2
 ### 업그레이드 할 수 없는 아이템 구하기
 ```sql
 SELECT
@@ -100,7 +102,7 @@ ORDER BY I.ITEM_ID DESC;
 ```
 -실패..
 
-## 문제 6
+## 문제 3
 ### 조건에 맞는 개발자 찾기
 ```sql
 - by GPT...
