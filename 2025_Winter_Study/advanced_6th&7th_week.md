@@ -41,13 +41,13 @@ ORDER BY FOOD_TYPE DESC;
 WITH RankedRest AS (
     SELECT 
         FOOD_TYPE, REST_ID, REST_NAME, FAVORITES,
-        ROW_NUMBER() OVER (PARTITION BY FOOD_TYPE ORDER BY FAVORITES DESC, REST_ID) AS rnk
+        ROW_NUMBER() OVER (PARTITION BY FOOD_TYPE ORDER BY FAVORITES DESC, REST_ID) AS rank
     FROM REST_INFO
 )
 SELECT 
     FOOD_TYPE, REST_ID, REST_NAME, FAVORITES
 FROM RankedRest
-WHERE rnk = 1
+WHERE rank = 1
 ORDER BY FOOD_TYPE DESC;
 ```
 ```
@@ -253,5 +253,8 @@ ORDER BY ID;
 ```
 ## 문제 4
 ### SUBQUERY/폐쇄할 따릉이 정류소 찾기 2(https://solvesql.com/problems/find-unnecessary-station-2/)
+```sql
+풀 수 있는 문제가 맞나요?
+```
 ```sql
 ```
