@@ -121,9 +121,9 @@ RANK() 또는 DENSE_RANK()를 사용하면 동일한 FAVORITES 값을 가진 레
 - **`RANK()`**: 공동 순위를 반영하되 **다음 순위는 건너뛰는 방식**이 필요한 경우.
 - **`DENSE_RANK()`**: 공동 순위를 반영하되 **순위를 연속적으로 유지해야 할 때**.
 
-```
-RANK(), DENSE_RANK(), ROW_NUMBER()의 선택은 중복된 값이 있을 때 순위 부여 방식이 중요한 경우와 순위의 연속성을 유지할 필요가 있는지에 따라 달라짐.
-```
+
+- RANK(), DENSE_RANK(), ROW_NUMBER()의 선택은 중복된 값이 있을 때 **순위 부여 방식**이 중요한 경우와 **순위의 연속성을 유지**할 필요가 있는지에 따라 달라짐.
+
 
 # 7주차
 ## [ISNULL] NULL처리하기 (SQL 고득점kit)
@@ -132,11 +132,126 @@ RANK(), DENSE_RANK(), ROW_NUMBER()의 선택은 중복된 값이 있을 때 순�
 ```
 https://school.programmers.co.kr/learn/courses/30/lessons/59410
 ### 문제1. IFNULL()으로 해결
-
+```sql
+SELECT 
+    ANIMAL_TYPE, 
+    IFNULL(NAME, 'No name') as NAME, 
+    SEX_UPON_INTAKE
+FROM ANIMAL_INS
+```
 ### 문제2. CASE WHEN으로 해결
+```sql
+SELECT 
+    ANIMAL_TYPE, 
+    CASE WHEN NAME IS NULL THEN "No name"
+    ELSE NAME
+    END AS NAME,
+    SEX_UPON_INTAKE
+FROM ANIMAL_INS
+```
+
+### 문제 3. 문제를 풀어주세요 (힌트: IF, LIKE를 사용할 수 있습니다) https://school.programmers.co.kr/learn/courses/30/lessons/59409#qna
+```sql
+SELECT 
+    ANIMAL_ID, 
+    NAME, 
+    NEUTERED_STATUS
+FROM (
+    SELECT 
+        ANIMAL_ID, 
+        NAME, 
+        CASE 
+            WHEN SEX_UPON_INTAKE LIKE '%NEUTERED%' OR SEX_UPON_INTAKE LIKE '%SPAYED%' 
+            THEN 'O'
+            ELSE 'X'
+        END AS NEUTERED_STATUS
+    FROM ANIMAL_INS
+) AS subquery
+ORDER BY ANIMAL_ID;
+```
+- IF, LIKE 사용하기
+```sql
+SELECT 
+    ANIMAL_ID,
+    NAME,
+    IF(SEX_UPON_INTAKE LIKE '%Neutered%' OR SEX_UPON_INTAKE LIKE '%Spayed%', 'O', 'X') AS NEUTERED_STATUS
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID;
+```
+- IF()
+```sql
+IF(조건, 참일 때 반환값, 거짓일 때 반환값)
+```
+
+- LIKE
+```sql
+컬럼명 LIKE '패턴'
+```
+    - LIKE 연산자는 특정 패턴을 가진 문자열을 검색할 때 사용
+    - % → 0개 이상의 문자와 일치
+    - _ → 정확히 1개의 문자와 일치
+    - NOT LIKE: 특정 단어가 없는 데이터 찾기:'NOT LIKE '%John%'' → 이름에 "John"이 없는 데이터 찾기
+
+### 문제 4. 아래는 QnA에 올라온 질문입니다. 왜 풀이가 틀렸는지 답해주세요. 
+```sql
+SELECT 
+    animal_id, 
+    name,
+    if (sex_upon_intake like '%Neutered%' or '%Spayed%', 'O' , 'X') as '중성화'
+from animal_ins
+order by 1
+```
+- IF 구문의 별칭을 지정해주지 않았다.
+- '%Spayed%'는 컬럼명이 없고, 독립적으로 OR 연산자에 연결되어 있어서 오류가 발생한다.
+- AS '중성화' 컬럼명 오류 
+    - MySQL에서는 작은따옴표(')를 컬럼명에 사용할 수 없음.
+    - 컬럼명은 백틱(`) 또는 큰따옴표(")로 감싸야 함.
+    - 또는 그냥 공백 없이 as 중성화로 사용 가능.
 
 
-### 문제 3. 문제를 풀어주세요 (힌트: IF, LIKE를 사용할 수 있습니다)
+# 수린문제
+## 문제 1
+### JOIN/ 있었는데요 없었습니다.(https://school.programmers.co.kr/learn/courses/30/lessons/59043)
+```sql
+SELECT
+    AI.ANIMAL_ID,
+    AI.NAME
+FROM ANIMAL_INS AS AI
+JOIN ANIMAL_OUTS AS AO
+ON AI.ANIMAL_ID = AO.ANIMAL_ID
+WHERE AI.DATETIME > AO.DATETIME
+ORDER BY ai.datetime;
+```
+- IN과 OUT은 SQL의 예약어이므로 테이블 별칭으로 사용할 수 없다.
 
+## 문제 2
+### GROUP BY/고양이와 개는 몇 마리 있을까(http://school.programmers.co.kr/learn/courses/30/lessons/59040)
+```sql
+SELECT
+    ANIMAL_TYPE,
+    count(ANIMAL_TYPE) as count
+FROM ANIMAL_INS
+GROUP BY ANIMAL_TYPE
+ORDER BY ANIMAL_TYPE ASC;
+```
+## 문제 3
+### SELECT/ 특정 세대의 대장균 찾기(https://school.programmers.co.kr/learn/courses/30/lessons/301650)
+```sql
+SELECT 
+    A.ID
+FROM ECOLI_DATA A
+JOIN ECOLI_DATA B
+ON A.PARENT_ID = B.ID
+JOIN ECOLI_DATA C
+ON B.PARENT_ID = C.ID
+WHERE ISNULL(C.PARENT_ID)
+ORDER BY ID;
+```
+- 조건을 걸어서 세대 수를 카운팅 할 수는 없을까
+```
 
-### 문제 4. 아래는 QnA에 올라온 질문입니다. 왜 풀이가 틀렸는지 답해주세요.  
+```
+## 문제 4
+### SUBQUERY/폐쇄할 따릉이 정류소 찾기 2(https://solvesql.com/problems/find-unnecessary-station-2/)
+```sql
+```
