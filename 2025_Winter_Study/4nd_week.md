@@ -42,7 +42,31 @@ Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabeti
 
 Note: Print NULL when there are no more names corresponding to an occupation.
 ```
+```sql
+SET @D=0, @P=0, @S=0, @A=0;
 
+SELECT MIN(Doctor) AS Doctor, 
+       MIN(Professor) AS Professor, 
+       MIN(Singer) AS Singer, 
+       MIN(Actor) AS Actor
+FROM (
+    SELECT 
+        CASE WHEN Occupation = 'Doctor' THEN Name END AS Doctor,
+        CASE WHEN Occupation = 'Professor' THEN Name END AS Professor,
+        CASE WHEN Occupation = 'Singer' THEN Name END AS Singer,
+        CASE WHEN Occupation = 'Actor' THEN Name END AS Actor,
+        CASE 
+            WHEN Occupation = 'Doctor' THEN (@D := @D + 1)
+            WHEN Occupation = 'Professor' THEN (@P := @P + 1)
+            WHEN Occupation = 'Singer' THEN (@S := @S + 1)
+            WHEN Occupation = 'Actor' THEN (@A := @A + 1)
+        END AS RowNumber
+    FROM Occupations 
+    ORDER BY Name
+) AS sub 
+GROUP BY RowNumber;
+
+```
 
 ## SQL 쿼리 성능 최적화를 위한 튜닝 팁 6가지
 - 잘 튜닝된 쿼리는 같은 작업을 더 빠르고 안정적으로 처리할 수 있게 한다.
@@ -315,9 +339,100 @@ SET
 # 정연 문제
 ## 문제 1
 ### [SELECT] 강원도에 위치한 생산공장 목록 출력하기 (https://school.programmers.co.kr/learn/courses/30/lessons/131112)
+```sql
+SELECT
+     FACTORY_ID,
+     FACTORY_NAME,
+     ADDRESS
+FROM FOOD_FACTORY
+WHERE ADDRESS like '강원도%'
+```
+- %는 LIKE 연산자에서만 사용 가능
 ## 문제 2
 ### [GROUP BY] 특정 조건을 만족하는 물고기별 수와 최대 길이 구하기 (https://school.programmers.co.kr/learn/courses/30/lessons/298519)
+```sql
+SELECT
+    COUNT(DISTINCT ID) AS FISH_COUNT,
+    MAX(LENGTH) AS MAX_LENGTH,
+    FISH_TYPE        
+FROM (
+    SELECT *
+    FROM FISH_INFO
+    IF LENGTH IS NULL then 10)     
+GROUP BY FISH_TYPE
+HAVING AVG(LENGTH) >= 33
+ORDER BY FISH_TYPE;
+```
+- 오류
+    -  SQL에서 IF ... THEN 구문은 SELECT 문과 서브쿼리 안에서 사용할 수 없다. → COALESCE(LENGTH, 10) 또는 CASE WHEN을 사용
+    - NULL 값이 있는 경우 AVG()가 올바르게 계산되지 않을 수도 있다.→ COALESCE()로 NULL을 방지
+
+#### 🎯 NULLIF vs COALESCE vs IFNULL 차이점 정리
+
+| 연산자 | 기능 | 입력 개수 | 반환 값 | 사용 예시 | 지원 DB |
+|--------|------|----------|---------|----------|---------|
+| **NULLIF(value1, value2)** | 두 값이 같으면 `NULL` 반환, 다르면 `value1` 반환 | 2개 | `NULL` 또는 `value1` | `NULLIF(10, 10) → NULL`<br>`NULLIF(10, 20) → 10` | MySQL, PostgreSQL, SQL Server, Oracle |
+| **COALESCE(value1, value2, ...)** | `NULL`이 아닌 첫 번째 값을 반환 | 2개 이상 | 첫 번째 `NULL`이 아닌 값 | `COALESCE(NULL, 20, 30) → 20` | MySQL, PostgreSQL, SQL Server, Oracle |
+| **IFNULL(value1, value2)** | `value1`이 `NULL`이면 `value2` 반환 | 2개 | `value1`이 `NULL`이면 `value2`, 아니면 `value1` | `IFNULL(NULL, 10) → 10`<br>`IFNULL(20, 10) → 20` | MySQL, MariaDB |
+
+#### 🔥 **각 함수의 동작 방식 예제**
+```sql
+SELECT NULLIF(10, 10);       -- 결과: NULL
+SELECT NULLIF(10, 20);       -- 결과: 10
+
+SELECT COALESCE(NULL, 20, 30);  -- 결과: 20
+SELECT COALESCE(NULL, NULL, 30); -- 결과: 30
+
+SELECT IFNULL(NULL, 10);      -- 결과: 10
+SELECT IFNULL(20, 10);        -- 결과: 20
+```
+
+#### 💡 결론:
+
+- NULLIF → 두 값이 같으면 NULL 반환
+- COALESCE → NULL이 아닌 첫 번째 값 반환 (여러 개의 값 비교 가능)
+- IFNULL → NULL이면 두 번째 값 반환 (MySQL 전용)
+
+```sql
+SELECT 
+    COUNT(*) AS FISH_COUNT
+    , MAX(LENGTH) AS MAX_LENGTH
+    , FISH_TYPE
+FROM FISH_INFO
+GROUP BY FISH_TYPE
+HAVING AVG(IFNULL(LENGTH, 10)) >= 33
+ORDER BY FISH_TYPE;
+```
+
 ## 문제 3
 ### 제목이 모음으로 끝나지 않는 영화 (https://solvesql.com/problems/film-ending-with-consonant/)
+```sql
+SELECT title
+FROM 
+  (SELECT title, rating
+  FROM film
+  WHERE rating IN ('R', 'NC-17')
+  ) as sq
+WHERE title NOT LIKE '%A'
+AND title NOT LIKE '%E'
+AND title NOT LIKE '%I'
+AND title NOT LIKE '%O'
+AND title NOT LIKE '%U'
+```
 ## 문제 4
 ### 버뮤다 삼각지대에 들어가버린 택배 (https://solvesql.com/problems/shipment-in-bermuda/)
+```sql
+WITH orders_201701 AS (
+    SELECT * 
+    FROM olist_orders_dataset
+    WHERE order_delivered_carrier_date BETWEEN '2017-01-01' AND '2017-01-31'
+    AND order_delivered_customer_date IS NULL 
+)
+SELECT 
+  date(order_delivered_carrier_date) AS delivered_carrier_date,
+  count(*) as orders 
+FROM orders_201701
+GROUP BY delivered_carrier_date 
+ORDER BY delivered_carrier_date ASC;
+```
+- 어디가 틀린건지 모르겠어요...
