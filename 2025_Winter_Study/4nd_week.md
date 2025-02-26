@@ -425,7 +425,7 @@ AND title NOT LIKE '%U'
 WITH orders_201701 AS (
     SELECT * 
     FROM olist_orders_dataset
-    WHERE order_delivered_carrier_date BETWEEN '2017-01-01' AND '2017-01-31'
+    WHERE order_delivered_carrier_date BETWEEN '2017-01-01' AND '2017-02-01'
     AND order_delivered_customer_date IS NULL 
 )
 SELECT 
@@ -435,4 +435,15 @@ FROM orders_201701
 GROUP BY delivered_carrier_date 
 ORDER BY delivered_carrier_date ASC;
 ```
-- 어디가 틀린건지 모르겠어요...
+- 다른 풀이
+```sql
+SELECT 
+    DATE(order_delivered_carrier_date) AS delivered_carrier_date,
+    COUNT(*) AS orders
+FROM olist_orders_dataset
+WHERE order_delivered_carrier_date >= '2017-01-01'
+  AND order_delivered_carrier_date < '2017-02-01'
+  AND order_delivered_customer_date IS NULL
+GROUP BY DATE(order_delivered_carrier_date)
+ORDER BY delivered_carrier_date;
+```
