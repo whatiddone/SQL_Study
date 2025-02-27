@@ -138,6 +138,7 @@ JOIN (
   - `RANK()`: 동일한 값이면 같은 순위이지만 **다음 순위는 건너뜀**.
   - `DENSE_RANK()`: 동일한 값이면 같은 순위이지만 **순위가 연속됨**.
 - 데이터 변화를 추적하는 분석 함수
+
 | 함수  | 설명 | 사용 예시 |
 |-------|------|----------|
 | `LEAD(column, offset, default) OVER (PARTITION BY col ORDER BY col2)` | 현재 행을 기준으로 '다음' `offset` 번째 행의 값을 반환 | `LEAD(sales, 1, 0) OVER (PARTITION BY region ORDER BY date)` |
