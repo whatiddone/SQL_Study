@@ -173,9 +173,26 @@ UPDATE t1 SET column2 = (SELECT MAX(column1) FROM t1);
 
 ### 문제 풀이
 #### 📝 Solvesql - 많이 주문한 테이블[🔗](https://solvesql.com/problems/find-tables-with-high-bill/)
+```sql
+SELECT *
+FROM tips
+WHERE total_bill > (SELECT AVG(total_bill) FROM tips)
+```
 
+![이미지 설명](whatiddone/SQL_Study/2025_Advanced/image/pre_week/1.png)
 
 #### 📝 Solvesql - 레스토랑의 대목[🔗](https://solvesql.com/problems/high-season-of-restaurant/)
+```sql
+SELECT
+  *
+FROM tips
+WHERE day IN (SELECT day 
+              FROM tips 
+              GROUP BY day 
+              HAVING SUM(total_bill) >= 1500)
+```
+![이미지 설명](whatiddone/SQL_Study/2025_Advanced/image/pre_week/2.png)
+
 
 
 >## 📖 서브쿼리 학습 및 문제 풀이
