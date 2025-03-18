@@ -209,7 +209,7 @@ order by 1
     - 또는 그냥 공백 없이 as 중성화로 사용 가능.
 
 
-# 수린문제
+# 수린 문제
 ## 문제 1
 ### JOIN/ 있었는데요 없었습니다.(https://school.programmers.co.kr/learn/courses/30/lessons/59043)
 ```sql
