@@ -179,7 +179,7 @@ FROM tips
 WHERE total_bill > (SELECT AVG(total_bill) FROM tips)
 ```
 
-![이미지 설명](whatiddone/SQL_Study/2025_Advanced/image/pre_week/1.png)
+![image](../2025_Advanced/image/pre_week/1.png)
 
 #### 📝 Solvesql - 레스토랑의 대목[🔗](https://solvesql.com/problems/high-season-of-restaurant/)
 ```sql
@@ -191,7 +191,7 @@ WHERE day IN (SELECT day
               GROUP BY day 
               HAVING SUM(total_bill) >= 1500)
 ```
-![이미지 설명](whatiddone/SQL_Study/2025_Advanced/image/pre_week/2.png)
+![image](../2025_Advanced/image/pre_week/2.png)
 
 
 
