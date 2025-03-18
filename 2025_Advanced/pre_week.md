@@ -195,9 +195,78 @@ WHERE day IN (SELECT day
 
 
 
->## 📖 서브쿼리 학습 및 문제 풀이
+>## 📖 CTE (WITH) 학습 및 문제 풀이
 
 📖 **공식 문서 참고**: 🔗 [MySQL 공식 문서 - 서브쿼리](https://dev.mysql.com/doc/refman/8.0/en/with.html)
 
+### CTE란? 
+```sql
+with_clause:
+    WITH [RECURSIVE]
+        cte_name [(col_name [, col_name] ...)] AS (subquery)
+        [, cte_name [(col_name [, col_name] ...)] AS (subquery)] ...
+```
+- WITH 절을 사용해 임시 결과 집합(temporary result set)을 만들고, 이를 쿼리 내에서 재사용하는 구조
+- 가독성과 유지보수성이 좋아지고, 복잡한 쿼리를 단계별로 쪼개서 작성 가능
+- 한 쿼리에 여러 CTE를 사용할 수 있으며, 각 CTE는 `콤마(,)`로 연결되어야 한다. 
+- CTE는 재사용 가능하며, 스스로 재사용되거나(self-referencing CTE), 다른 CTE에서 재사용될 수 있다.
+  - 단, 같은 with 절 내에서 먼저 선언되었거나, 더 상위 레벨 쿼리 블록*에서 정의된 CTE만 참조할 수 있다. *쿼리 블록: 하나의 SELECT ~ FROM ~ WHERE ~ 묶음
+  ```sql
+  WITH outer_cte AS (SELECT ... ) -- 상위 쿼리 블록
+  SELECT *
+  FROM ( 
+    WITH inner_cte AS (SELECT ... )
+    SELECT * FROM inner_cte, outer_cte  -- 하위 쿼리 블록
+  ) AS subquery;
+  ```
+
+### FROM 절 서브쿼리(파생 테이블)에 비해 CTE의 장점
+- 파생 테이블은 쿼리 내에서 단 한 번만 참조할 수 있으나 CTE는 무제한 재사용 가능
+- CTE는 자체 참조(재귀적)할 수 있으며, 한 CTE는 다른 CTE를 참조할 수 있다.
+- 구조적으로 읽기 쉬움(제일 앞에 위치)
 ### 문제 풀이
 #### 📝 programmers - 식품분류별 가장 비싼 식품의 정보 조회하기[🔗](https://school.programmers.co.kr/learn/courses/30/lessons/131116) 
+```sql
+# CTE 사용
+WITH cte AS(
+    SELECT *, 
+    MAX(PRICE) AS MAX_PRICE
+FROM FOOD_PRODUCT 
+GROUP BY CATEGORY)
+SELECT CATEGORY,
+    MAX_PRICE, 
+    PRODUCT_NAME
+FROM cte
+WHERE CATEGORY IN 
+    ('과자', '국', '김치', '식용유')
+ORDER BY PRICE DESC;
+```
+```sql
+SELECT CATEGORY, PRICE AS MAX_PRICE, PRODUCT_NAME
+FROM FOOD_PRODUCT
+WHERE CATEGORY IN ('과자', '국', '김치', '식용유')
+  AND PRICE = (
+      SELECT MAX(PRICE)
+      FROM FOOD_PRODUCT AS subquery
+      WHERE subquery.CATEGORY = FOOD_PRODUCT.CATEGORY
+  )
+ORDER BY PRICE DESC;
+```
+```sql
+# FROM 절 서브쿼리(파생테이블) 사용
+SELECT
+    CATEGORY,
+    PRICE AS MAX_PRICE,
+    PRODUCT_NAME
+FROM FOOD_PRODUCT
+WHERE (CATEGORY, PRICE) IN (
+    SELECT
+        CATEGORY,
+        MAX(PRICE)
+    FROM FOOD_PRODUCT
+    WHERE CATEGORY IN ('과자', '국', '김치', '식용유')
+    GROUP BY CATEGORY
+)
+ORDER BY PRICE DESC;
+```
+![image](../2025_Advanced/image/pre_week/3.png)
