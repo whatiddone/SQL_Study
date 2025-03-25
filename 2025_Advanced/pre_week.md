@@ -1,6 +1,6 @@
 # 0주차
 
->## 📖 서브쿼리 학습 및 문제 풀이
+>## 📖 서브쿼리 학습
 
 📖 **공식 문서 참고**: 🔗 [MySQL 공식 문서 - 서브쿼리](https://dev.mysql.com/doc/refman/8.0/en/subqueries.html)
 
@@ -171,8 +171,8 @@ UPDATE t1 SET column2 = (SELECT MAX(column1) FROM t1);
 - 해결 방법
   - CTE 사용
 
-### 문제 풀이
-#### 📝 Solvesql - 많이 주문한 테이블[🔗](https://solvesql.com/problems/find-tables-with-high-bill/)
+## 🔎 문제 풀이
+### 📝 Solvesql - 많이 주문한 테이블[🔗](https://solvesql.com/problems/find-tables-with-high-bill/)
 ```sql
 SELECT *
 FROM tips
@@ -181,7 +181,7 @@ WHERE total_bill > (SELECT AVG(total_bill) FROM tips)
 
 ![image](../2025_Advanced/image/pre_week/1.png)
 
-#### 📝 Solvesql - 레스토랑의 대목[🔗](https://solvesql.com/problems/high-season-of-restaurant/)
+### 📝 Solvesql - 레스토랑의 대목[🔗](https://solvesql.com/problems/high-season-of-restaurant/)
 ```sql
 SELECT
   *
@@ -224,8 +224,8 @@ with_clause:
 - 파생 테이블은 쿼리 내에서 단 한 번만 참조할 수 있으나 CTE는 무제한 재사용 가능
 - CTE는 자체 참조(재귀적)할 수 있으며, 한 CTE는 다른 CTE를 참조할 수 있다.
 - 구조적으로 읽기 쉬움(제일 앞에 위치)
-### 문제 풀이
-#### 📝 programmers - 식품분류별 가장 비싼 식품의 정보 조회하기[🔗](https://school.programmers.co.kr/learn/courses/30/lessons/131116) 
+## 🔎 문제 풀이
+### 📝 programmers - 식품분류별 가장 비싼 식품의 정보 조회하기[🔗](https://school.programmers.co.kr/learn/courses/30/lessons/131116) 
 ```sql
 # CTE 사용
 WITH cte AS(
