@@ -12,7 +12,7 @@ A table reference is also known as a join expression.
 MySQL, JOIN, CROSS JOIN, and INNER JOIN are syntactic equivalents. In standard SQL, they are not equivalent. INNER JOIN is used with an ON clause, CROSS JOIN is used otherwise.
 
 - MySQL JOIN Syntax Structure
-![image](whatiddone/SQL_Study/2025_Advanced/image/2nd_week/1.png)
+![image](2025_Advanced/image/2nd_week/1.png)
 ```
 table_references는 전체 JOIN 구문의 시작점
 
@@ -70,7 +70,7 @@ WHERE YEAR(S.SALES_DATE) = 2022
 GROUP BY B.AUTHOR_ID, B.CATEGORY
 ORDER BY AUTHOR_ID ASC, CATEGORY DESC
 ```
-![image](whatiddone/SQL_Study/2025_Advanced/image/2nd_week/2.png)
+![image](2025_Advanced/image/2nd_week/2.png)
 >## ✅ GROUP BY + HAVING 학습
 📖 **공식 문서 참고**
 
@@ -117,4 +117,4 @@ ORDER BY GRADE ASC, ID ASC;
 
 -- WHEN S.CATEGORY = 'Front End' AND S.NAME = 'Python' THEN 'A' 조건이 참이 되려면 S.CATEGORY는 'Front End'이고, S.NAME은 'Python'이어야 한다.
 ```
-![image](whatiddone/SQL_Study/2025_Advanced/image/2nd_week/3.png)
+![image](2025_Advanced/image/2nd_week/3.png)
