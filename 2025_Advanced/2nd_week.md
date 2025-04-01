@@ -73,11 +73,111 @@ ORDER BY AUTHOR_ID ASC, CATEGORY DESC
 ![image](2025_Advanced/image/2nd_week/2.png)
 >## ✅ GROUP BY + HAVING 학습
 📖 **공식 문서 참고**
-
+### 14.19.3 MySQL Handling of GROUP BY
 - 🔗 [MySQL 공식 문서 - GROUP BY](https://dev.mysql.com/doc/refman/8.0/en/group-by-handling.html) ([`ONLY_FULL_GROUP_BY`](https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html#sqlmode_only_full_group_by))
 
+SQL에서 GROUP BY를 쓸 때는 집계 함수(Aggregate function)을 쓰지 않은 **비집계 컬럼(non-aggregated column)**은 반드시 GROUP BY절에 포함되어야 하지만, 기능적 종속(Functional Dependency)을 만족하는 경우, GROUP BY에 명시되지 않은 비집계 컬럼도 SELECT절에 포함하는 것을 허용한다.
+
+#### 기능적 종속 (Functional Dependency)이란?
+```sql
+students (student_id, student_name, department_id, department_name)
+```
+위와 같은 테이블에서 `department_id`가 유일하다면, `department_name`은 `department_id`에 기능적으로 종속된다. 즉, `department_id`가 같으면 `department_name`도 항상 같다.
+
+>#### ONLY_FULL_GROUP_BY
+#### ONLY_FULL_GROUP_BY 모드가 활성화된 경우
+`SQL ONLY_FULL_GROUP_BY 모드`가 활성화된 경우에도 GROUP BY 절에 이름이 지정되지 않은 비집계 컬럼을 SELECT 절에 허용한다. 단, 비집계 컬럼이 단일 값으로 제한되어야 한다.
+
+SELECT 목록에 두 개 이상의 비집계 컬럼이 있다면, 모든 열은 WHERE 절에서 단일 값으로 제한되어야 하며, 이러한 모든 제한 조건은 여기에 표시된 대로 논리적 AND로 결합되어야 한다. 
+
+
+```sql
+SELECT name, address, MAX(age) FROM t GROUP BY name;
+-- GROUP BY 절에 address가 없기 때문에 문제 발생.
+-- 하지만 name이 t의 Primary Key인 경우, 서버에서 스스로 기능적 종속성을 인식하여 문제가 발생하지 않기도 한다!
+```
+```sql
+-- address를 GROUP BY에 추가하여 문제 해결
+SELECT name, address, MAX(age) FROM t GROUP BY name, address;
+```
+
+비집계 컬럼에 `ANY_VALUE()`를 사용하여도 문제를 해결할 수 있다.
+```sql
+SELECT name, ANY_VALUE(address), MAX(age) FROM t GROUP BY name;
+```
+ONLY_FULL_GROUP_BY 모드를 비활성화하는 경우도 있다. 
+```sql
+SET SESSION sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+-- 세션 수준에서 임시 비활성화
+
+SELECT name, address, MAX(age)
+FROM t
+GROUP BY name;
+```
+
+#### ONLY_FULL_GROUP_BY 모드가 비활성화된 경우
+컬럼이 GROUP BY 컬럼에 기능적으로 종속되지 않더라도 select list, HAVING 조건 또는 ORDER BY 목록이 집계되지 않은 열을 참조할 수 있도록 허용한다.<br>
+-> GROUP BY에 없는 컬럼을 SELECT에 쓰면, 그 컬럼의 값 중 하나가 그룹 안에서 무작위로 선택될 수 있다. ORDER BY는 결과 전체의 정렬 순서를 정할 뿐, 그룹 안에서 "어떤 값이 선택될지"를 결정하지 않는다.
+
+#### MYSQL에서는 `HAVING 절`에 별칭(alias) 사용 가능
+```sql
+SELECT name, COUNT(name) AS c FROM orders
+  GROUP BY name
+  HAVING c = 1;
+```
+GROUP BY에서도 별칭을 사용할 수 있다.
+```sql
+SELECT id, FLOOR(value/100) AS val
+  FROM tbl_name
+  GROUP BY id, val;
+```
+
+⚠️표현식끼리의 기능적 종속 관계는 MySQL이 인식하지 못한다.
+```sql
+SELECT id, FLOOR(value/100), id + FLOOR(value/100)
+FROM tbl
+GROUP BY id, FLOOR(value/100);
+-- id + FLOOR(value/100)이 GROUP BY에 없어서 오류 발생
+```
+-> 서브쿼리 사용하여 문제 해결
+```sql
+SELECT id, F, id + F
+FROM (
+  SELECT id, FLOOR(value/100) AS F
+  FROM tbl
+  GROUP BY id, FLOOR(value/100)
+) AS dt;
+```
+### 15.2.13 SELECT Statement
 - 🔗 [MySQL 공식 문서 - HAVING](https://dev.mysql.com/doc/refman/8.0/en/select.html)
 
+#### WHERE vs HAVING
+| 항목             | WHERE 절                                         | HAVING 절                                        |
+|------------------|--------------------------------------------------|--------------------------------------------------|
+| **적용 시점**     | `GROUP BY` 전에 적용                             | `GROUP BY` 후에 적용                             |
+| **대상**         | **행(Row)**에 대한 조건 필터링                   | **그룹(Group)**에 대한 조건 필터링               |
+| **집계 함수 사용**| 사용할 수 없음                                   | 사용할 수 있음                                   |
+| **주 사용 목적**  | 데이터를 그룹화하기 전에 필터링하고 싶을 때 사용 | 그룹화된 결과에서 조건에 맞는 그룹만 보고 싶을 때 사용 |
+| **예시**         | `WHERE age > 20`                                 | `HAVING COUNT(*) > 5`                            |
+
+- HAVING 절은 `무조건` GROUP BY 뒤, ORDER BY 앞에 위치하여야 한다.
+- HAVING 절의 이름이 불분명한 경우, 경고가 발생한다.
+- HAVING 절에서 사용된 컬럼명이 GROUP BY 절과 SELECT 절의 별칭(alias) 양쪽에서 모두 사용되었다면, MySQL은 GROUP BY에 지정된 컬럼으로 우선하여 인식한다.
+```sql
+SELECT subject, AVG(score) AS score
+FROM students
+GROUP BY subject
+HAVING score > 80;
+```
+```
+SELECT 절에서 AVG(score)에 **별칭 score**를 지정했습니다.
+
+그런데 HAVING score > 80에서는 이 score가 별칭인지, GROUP BY의 컬럼인지 모호할 수 있습니다.
+
+MySQL은 GROUP BY에 사용된 컬럼명을 우선으로 해석하려고 시도합니다.
+
+그런데 이 경우 GROUP BY subject로 되어 있고, score는 GROUP BY에 포함되지 않았으므로, 결국 HAVING에서는 SELECT 절의 별칭 score (즉 AVG(score))로 해석됩니다.
+```
 >## 🔎 문제 풀이
 ### 🔗 [programmers - 언어별 개발자 분류하기](https://school.programmers.co.kr/learn/courses/30/lessons/276036) 
 ```sql
