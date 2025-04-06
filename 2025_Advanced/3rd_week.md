@@ -163,7 +163,7 @@ SELECT
     END AS triangle_type
 FROM TRIANGLES;
 ```
-![image](2025_Advanced/image/3rd_week/1.png)
+![image](image/3rd_week/1.png)
 #### 🔗 [LeetCode - find-customer-referee](https://leetcode.com/problems/find-customer-referee/description/) `IS NULL`
 ```sql
 SELECT
@@ -171,4 +171,4 @@ SELECT
 FROM Customer
 WHERE referee_id != 2 OR referee_id IS NULL;
 ```
-![image](2025_Advanced/image/3rd_week/2.png)
+![image](image/3rd_week/2.png)
